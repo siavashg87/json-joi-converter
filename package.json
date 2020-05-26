@@ -1,0 +1,47 @@
+{
+  "name": "json-joi-converter",
+  "version": "17.1.0",
+  "description": "Converts json from and to Joi objects.",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "17.1.0",
+    "@types/mocha": "^7.0.2",
+    "mocha": "^7.1.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dts/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist/* && rm -rf dts/* && tsc",
+    "test": "mocha ./dist/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siavashg87/json-joi-converter.git"
+  },
+  "keywords": [
+    "joi",
+    "@hapi/joi",
+    "joi typescript",
+    "joi json",
+    "joi-json",
+    "json validator",
+    "schema",
+    "validation",
+    "converter"
+  ],
+  "bugs": {
+    "url": "https://github.com/siavashg87/json-joi-converter/issues"
+  },
+  "homepage": "https://github.com/siavashg87/json-joi-converter#readme",
+  "directories": {
+    "test": "test"
+  },
+  "author": "Siavash Goudarzi <info@siavashg.com>"
+}
