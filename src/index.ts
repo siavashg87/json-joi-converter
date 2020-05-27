@@ -1,9 +1,18 @@
 import * as Joi from "@hapi/joi";
-import {StringSchema} from "@hapi/joi";
 import {isObject, regexToString, extractRef, jsonToRegex, jsonToRef, propertiesToJson} from "./Utils";
 import {
   Schema,
+  AnySchema,
   ObjectSchema,
+  StringSchema,
+  ArraySchema,
+  AlternativesSchema,
+  BinarySchema,
+  BooleanSchema,
+  DateSchema,
+  NumberSchema,
+  LinkSchema,
+  SymbolSchema,
   TypeReplace,
   TypeWhen
 } from "./Interfaces";
@@ -464,5 +473,18 @@ export function toJson(joi: any): Schema {
   return json;
 }
 
-export {Schema};
+export {
+  Schema,
+  AnySchema,
+  ObjectSchema,
+  StringSchema,
+  ArraySchema,
+  AlternativesSchema,
+  BinarySchema,
+  BooleanSchema,
+  DateSchema,
+  NumberSchema,
+  LinkSchema,
+  SymbolSchema
+};
 export default Joi;
