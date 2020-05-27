@@ -65,7 +65,7 @@ export type TypeWhen = ({
   break?: never;
 } & WhenSchemaOptions);
 
-interface AnySchema<T = any> {
+export interface AnySchema<T = any> {
   type: "any" | "number" | "string" | "boolean" | "binary" | "link" | "alternatives" | "object" | "array" | "symbol" | "date";
   allow?: T | ArrayMinOneItem<T>;
   alter?: Record<string, Schema>;
@@ -139,7 +139,7 @@ interface AnySchema<T = any> {
 }
 
 
-interface BooleanSchema extends AnySchema<boolean> {
+export interface BooleanSchema extends AnySchema<boolean> {
   default?: boolean;
   falsy?: ArrayMinOneItem<string | number>;
   sensitive?: boolean;
@@ -148,7 +148,7 @@ interface BooleanSchema extends AnySchema<boolean> {
 
 type NumberLimit = number | Reference | {limit: number | Reference};
 
-interface NumberSchema extends AnySchema<number> {
+export interface NumberSchema extends AnySchema<number> {
   type: "number";
   greater?: NumberLimit;
   integer?: boolean;
@@ -289,7 +289,7 @@ export interface BinarySchema extends AnySchema {
 
 type DateArg = 'now' | Date | number | string | Reference;
 
-interface DateSchema extends AnySchema {
+export interface DateSchema extends AnySchema {
   type: "date",
   greater?: DateArg;
   iso?: boolean;
@@ -299,20 +299,20 @@ interface DateSchema extends AnySchema {
   timetamp?: 'javascript' | 'unix'; // default 'javascript'
 }
 
-interface AlternativesSchema extends AnySchema {
+export interface AlternativesSchema extends AnySchema {
   type: "alternatives",
   conditional?: TypeWhen | ArrayMinOneItem<TypeWhen>;
   match?: 'any' | 'all' | 'one';
   try?: ArrayMinOneItem<SchemaLike>;
 }
 
-interface LinkSchema extends AnySchema {
+export interface LinkSchema extends AnySchema {
   type: "link",
   concat?: Schema;
   ref?: string;
 }
 
-interface SymbolSchema extends AnySchema {
+export interface SymbolSchema extends AnySchema {
   type: "symbol",
   map?: Iterable<[string | number | boolean | symbol, symbol]> | { [key: string]: symbol };
 }
