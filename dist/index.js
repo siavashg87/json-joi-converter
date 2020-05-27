@@ -9,6 +9,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toJson = exports.fromJson = void 0;
 var Joi = require("@hapi/joi");
+var lodash_1 = require("lodash");
 var Utils_1 = require("./Utils");
 var OptionKey = {
     example: "example",
@@ -19,7 +20,41 @@ var OptionKey = {
     pattern: "pattern",
     regex: "pattern",
 };
-function fromJson(json) {
+function translateWhen(when, validation) {
+    if (validation === void 0) { validation = null; }
+    if (!validation)
+        validation = Joi.any();
+    var ref = null;
+    if ("reference" in when) {
+        ref = Utils_1.jsonToRef(when.reference);
+        delete when.reference;
+    }
+    else if ("schema" in when) {
+        ref = fromJson(when.schema);
+        delete when.schema;
+    }
+    if ("is" in when)
+        when.is = fromJson(when.is);
+    if ("then" in when)
+        when.then = fromJson(when.then);
+    if ("otherwise" in when)
+        when.otherwise = fromJson(when.otherwise);
+    if ("switch" in when)
+        when.switch = when.switch.map(function (sw) {
+            var op = {};
+            if ("then" in when)
+                op.then = fromJson(sw.then);
+            if ("otherwise" in when)
+                op.otherwise = fromJson(sw.otherwise);
+            return op;
+        });
+    validation = validation.when(ref, when);
+    return validation;
+}
+function fromJson(_json) {
+    var json = lodash_1.cloneDeep(_json);
+    if (Utils_1.isObject(json) && "then" in json)
+        return translateWhen(json);
     if (!Utils_1.isObject(json) || !("type" in json))
         return json;
     var validation = json.type === "object" ? Joi.object(Utils_1.propertiesToJson(json.properties)) : Joi[json.type || "any"]();
@@ -80,7 +115,6 @@ function fromJson(json) {
             case "description":
             case "disallow":
             case "equal":
-            case "error":
             case "extract":
             case "failover":
             case "id":
@@ -143,6 +177,9 @@ function fromJson(json) {
                     }
                     validation = validation[k](arg);
                 }
+                break;
+            case "error":
+                validation = validation.error(new Error(json[k]));
                 break;
             // with options
             case "example":
@@ -259,31 +296,7 @@ function fromJson(json) {
             case "when":
             case "conditional":
                 (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach(function (when) {
-                    var ref = null;
-                    if ("reference" in when) {
-                        ref = Utils_1.jsonToRef(when.reference);
-                        delete when.reference;
-                    }
-                    else if ("schema" in when) {
-                        ref = fromJson(when.schema);
-                        delete when.schema;
-                    }
-                    if ("is" in when)
-                        when.is = fromJson(when.is);
-                    if ("then" in when)
-                        when.then = fromJson(when.then);
-                    if ("otherwise" in when)
-                        when.otherwise = fromJson(when.otherwise);
-                    if ("switch" in when)
-                        when.switch = when.switch.map(function (sw) {
-                            var op = {};
-                            if ("then" in when)
-                                op.then = fromJson(sw.then);
-                            if ("otherwise" in when)
-                                op.otherwise = fromJson(sw.otherwise);
-                            return op;
-                        });
-                    validation = validation[k](ref, when);
+                    translateWhen(when, validation);
                 });
                 break;
             default:

@@ -1,4 +1,5 @@
 import * as Joi from "@hapi/joi";
+import {cloneDeep} from "lodash";
 import {isObject, regexToString, extractRef, jsonToRegex, jsonToRef, propertiesToJson} from "./Utils";
 import {
   Schema,
@@ -27,8 +28,44 @@ let OptionKey: any = {
   regex: "pattern",
 };
 
+function translateWhen(when: any, validation: Joi.Schema | null = null): Joi.Schema {
+  if (!validation)
+    validation = Joi.any();
+  let ref = null;
+  if ("reference" in when) {
+    ref = jsonToRef(when.reference);
+    delete when.reference;
+  }
+  else if ("schema" in when) {
+    ref = fromJson(when.schema);
+    delete when.schema;
+  }
+  if ("is" in when)
+    when.is = fromJson(when.is);
+  if ("then" in when)
+    when.then = fromJson(when.then);
+  if ("otherwise" in when)
+    when.otherwise = fromJson(when.otherwise);
 
-export function fromJson(json: any): Joi.Schema {
+  if ("switch" in when)
+    when.switch = when.switch.map((sw: any) => {
+      let op: TypeWhen = {} as TypeWhen;
+      if ("then" in when)
+        op.then = fromJson(sw.then);
+      if ("otherwise" in when)
+        op.otherwise = fromJson(sw.otherwise);
+      return op;
+    });
+  validation = validation.when(ref, when);
+
+  return validation;
+}
+
+
+export function fromJson(_json: Schema): Joi.Schema {
+  const json: any = cloneDeep(_json);
+  if (isObject(json) && "then" in json)
+    return translateWhen(json);
   if (!isObject(json) || !("type" in json))
     return json;
   let validation: any = json.type === "object" ? Joi.object(propertiesToJson((json as ObjectSchema).properties)) : (Joi as any)[json.type || "any"]();
@@ -91,7 +128,6 @@ export function fromJson(json: any): Joi.Schema {
       case "description":
       case "disallow":
       case "equal":
-      case "error":
       case "extract":
       case "failover":
       case "id":
@@ -153,6 +189,10 @@ export function fromJson(json: any): Joi.Schema {
         }
         validation = validation[k](arg);
       }
+        break;
+
+      case "error":
+        validation = validation.error(new Error(json[k]));
         break;
 
       // with options
@@ -290,31 +330,7 @@ export function fromJson(json: any): Joi.Schema {
       case "when":
       case "conditional":
         (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach((when: any) => {
-          let ref = null;
-          if ("reference" in when) {
-            ref = jsonToRef(when.reference);
-            delete when.reference;
-          }
-          else if ("schema" in when) {
-            ref = fromJson(when.schema);
-            delete when.schema;
-          }
-          if ("is" in when)
-            when.is = fromJson(when.is);
-          if ("then" in when)
-            when.then = fromJson(when.then);
-          if ("otherwise" in when)
-            when.otherwise = fromJson(when.otherwise);
-          if ("switch" in when)
-            when.switch = when.switch.map((sw: any) => {
-              let op: TypeWhen = {} as TypeWhen;
-              if ("then" in when)
-                op.then = fromJson(sw.then);
-              if ("otherwise" in when)
-                op.otherwise = fromJson(sw.otherwise);
-              return op;
-            });
-          validation = validation[k](ref, when);
+          translateWhen(when, validation);
         });
         break;
       default:

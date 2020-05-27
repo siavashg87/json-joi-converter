@@ -54,8 +54,9 @@ function extractRef(obj) {
 exports.extractRef = extractRef;
 function propertiesToJson(properties) {
     var joi = {};
-    for (var key in properties)
+    for (var key in properties) {
         joi[key] = index_1.fromJson(properties[key]);
+    }
     return joi;
 }
 exports.propertiesToJson = propertiesToJson;

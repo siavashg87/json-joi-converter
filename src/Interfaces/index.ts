@@ -262,7 +262,7 @@ export interface ObjectSchema<T = any> extends AnySchema<T> {
   xor?: Peers;
 }
 
-export interface ArraySchema extends AnySchema<any> {
+export interface ArraySchema<T = any> extends AnySchema<T> {
   type: "array",
   has?: SchemaLike;
   items?: SchemaLike | ArrayMinOneItem<SchemaLike>;

@@ -59,7 +59,8 @@ export function extractRef(obj: any) {
 
 export function propertiesToJson(properties: any) {
   let joi: Record<string, Joi.Schema> = {};
-  for (let key in properties)
+  for (let key in properties)  {
     joi[key] = fromJson(properties[key]);
+  }
   return joi;
 }

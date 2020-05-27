@@ -1,9 +1,9 @@
 import * as assert from "assert";
-import JsonJoi, {fromJson, toJson} from "../index";
+import JsonJoi, {fromJson, ObjectSchema, toJson} from "../index";
 
 describe('Json to Joi', () => {
   it("simple number", (done) => {
-    let json = {
+    let json: ObjectSchema = {
       type: "object",
       properties: {
         a: {
@@ -21,7 +21,7 @@ describe('Json to Joi', () => {
   });
 
   it("assert", (done) => {
-    let json = {
+    let json: ObjectSchema = {
       type: "object",
       assert: ["a", "b", "c"],
       properties: {
@@ -36,6 +36,28 @@ describe('Json to Joi', () => {
       Object.keys((toJson(fromJson(json)) as any).assert),
       ["subject", "schema", "message"]
     );
+
+    fromJson({
+      type: "array",
+      when: {
+        reference: "/type",
+        is: {
+          valid: [1, 2, true]
+        },
+        then: {
+          min: 1
+        },
+        otherwise: {
+          is: 1,
+          then: {
+            length: 2
+          },
+          otherwise: {
+            min: 0
+          }
+        }
+      }
+    });
     done();
   });
 
