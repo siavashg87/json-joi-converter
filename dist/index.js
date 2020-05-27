@@ -168,7 +168,7 @@ function fromJson(json) {
             case "items":
             case "ordered":
             case "try":
-                validation = validation[k].apply(validation, json[k]);
+                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]));
                 break;
             // peers
             case "and":

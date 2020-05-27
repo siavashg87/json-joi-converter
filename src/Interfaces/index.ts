@@ -231,13 +231,13 @@ export type TypeAssert = [string | Reference, any, string?] | {
 
 export interface ObjectSchema<T = any> extends AnySchema<T> {
   type: "object",
-  properties: SchemaMap<T>;
+  properties: {[key: string]: Schema};
   and?: Peers;
-  append?: SchemaMap<T>;
+  append?: {[key: string]: Schema};
   assert?: TypeAssert;
   // function
   //instance?: never;
-  keys?: SchemaMap<T>;
+  keys?: {[key: string]: Schema};
   length?: number;
   max?: number | Reference;
   min?: number | Reference;
@@ -265,7 +265,7 @@ export interface ObjectSchema<T = any> extends AnySchema<T> {
 export interface ArraySchema extends AnySchema<any> {
   type: "array",
   has?: SchemaLike;
-  items?: ArrayMinOneItem<SchemaLike>;
+  items?: SchemaLike | ArrayMinOneItem<SchemaLike>;
   length?: number | Reference;
   min?: number;
   max?: number;

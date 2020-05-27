@@ -182,7 +182,7 @@ export function fromJson(json: any): Joi.Schema {
       case "items":
       case "ordered":
       case "try":
-        validation = validation[k](...json[k]);
+        validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]));
         break;
 
       // peers
