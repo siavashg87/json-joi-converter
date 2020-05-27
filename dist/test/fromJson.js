@@ -17,4 +17,19 @@ describe('Json to Joi', function () {
         assert.deepEqual(index_1.toJson(index_1.fromJson(json)), json);
         done();
     });
+    it("assert", function (done) {
+        var json = {
+            type: "object",
+            assert: ["a", "b", "c"],
+            properties: {
+                a: {
+                    type: "number",
+                    min: 100,
+                    max: 1000
+                }
+            }
+        };
+        assert.deepEqual(Object.keys(index_1.toJson(index_1.fromJson(json)).assert), ["subject", "schema", "message"]);
+        done();
+    });
 });

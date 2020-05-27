@@ -217,22 +217,24 @@ type Peers = ArrayMinOneItem<string | HierarchySeparatorOptions> | {
   options?: HierarchySeparatorOptions;
 };
 
-type TypeWithOut = {
+export type TypeWithOut = {
   key: string;
   peers: string | ArrayMinOneItem<string>;
   options?: HierarchySeparatorOptions;
 } | [string, string | ArrayMinOneItem<string>, HierarchySeparatorOptions?];
+
+export type TypeAssert = [string | Reference, any, string?] | {
+  reference: string | Reference;
+  schema: SchemaLike;
+  message?: string;
+};
 
 export interface ObjectSchema<T = any> extends AnySchema<T> {
   type: "object",
   properties: SchemaMap<T>;
   and?: Peers;
   append?: SchemaMap<T>;
-  assert?: [string | Reference, any, string?] | {
-    reference: string | Reference;
-    schema: SchemaLike;
-    message?: string;
-  };
+  assert?: TypeAssert;
   // function
   //instance?: never;
   keys?: SchemaMap<T>;
