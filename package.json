@@ -7,7 +7,7 @@
     "@hapi/joi": "^17.1.0"
   },
   "devDependencies": {
-    "@types/hapi__joi": "17.1.0",
+    "@types/hapi__joi": "17.1.0.1",
     "@types/mocha": "^7.0.2",
     "typescript": "^3.9.3",
     "mocha": "^7.1.2"
