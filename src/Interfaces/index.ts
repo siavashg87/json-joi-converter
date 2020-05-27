@@ -53,7 +53,7 @@ export type Schema = AnySchema
   | LinkSchema
   | SymbolSchema;
 
-type TypeWhen = ({
+export type TypeWhen = ({
   reference: string | Reference;
   schema?: never;
 } & WhenOptions) | ({
@@ -135,7 +135,7 @@ interface AnySchema<T = any> {
     code: string;
     context: Context;
   }
-  when?: TypeWhen;
+  when?: TypeWhen | ArrayMinOneItem<TypeWhen>;
 }
 
 
@@ -299,7 +299,7 @@ interface DateSchema extends AnySchema {
 
 interface AlternativesSchema extends AnySchema {
   type: "alternatives",
-  conditional?: TypeWhen;
+  conditional?: TypeWhen | ArrayMinOneItem<TypeWhen>;
   match?: 'any' | 'all' | 'one';
   try?: ArrayMinOneItem<SchemaLike>;
 }

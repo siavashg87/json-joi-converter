@@ -4,7 +4,8 @@ import {isObject, regexToString, extractRef, jsonToRegex, jsonToRef, propertiesT
 import {
   Schema,
   ObjectSchema,
-  TypeReplace
+  TypeReplace,
+  TypeWhen
 } from "./Interfaces";
 
 let OptionKey: any = {
@@ -19,7 +20,9 @@ let OptionKey: any = {
 
 
 export function fromJson(json: any): Joi.Schema {
-  let validation: any = json.type === "object" ? Joi.object(propertiesToJson((json as ObjectSchema).properties)) : (Joi as any)[json.type]();
+  if (!isObject(json) || !("type" in json))
+    return json;
+  let validation: any = json.type === "object" ? Joi.object(propertiesToJson((json as ObjectSchema).properties)) : (Joi as any)[json.type || "any"]();
   for (let k in json) {
 
     switch (k) {
@@ -83,7 +86,6 @@ export function fromJson(json: any): Joi.Schema {
       case "extract":
       case "failover":
       case "id":
-      case "invalid":
       case "label":
       case "message":
       case "messages":
@@ -103,8 +105,7 @@ export function fromJson(json: any): Joi.Schema {
       case "tag":
       case "tailor":
       case "unit":
-      case "valid":
-      case "validate":
+      //case "validate":
       case "falsy":
       case "sensitive":
       case "truthy":
@@ -167,6 +168,8 @@ export function fromJson(json: any): Joi.Schema {
       }
 
       // spread
+      case "valid":
+      case "invalid":
       case "items":
       case "ordered":
       case "try":
@@ -277,16 +280,33 @@ export function fromJson(json: any): Joi.Schema {
 
       case "when":
       case "conditional":
-        let ref = null;
-        if ("reference" in json[k]) {
-          ref = jsonToRef(json[k].reference);
-          delete json[k].reference;
-        }
-        else if ("schema" in json[k]) {
-          ref = fromJson(json[k].schema);
-          delete json[k].schema;
-        }
-        validation = validation[k](ref, json[k]);
+        (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach((when: any) => {
+          let ref = null;
+          if ("reference" in when) {
+            ref = jsonToRef(when.reference);
+            delete when.reference;
+          }
+          else if ("schema" in when) {
+            ref = fromJson(when.schema);
+            delete when.schema;
+          }
+          if ("is" in when)
+            when.is = fromJson(when.is);
+          if ("then" in when)
+            when.then = fromJson(when.then);
+          if ("otherwise" in when)
+            when.otherwise = fromJson(when.otherwise);
+          if ("switch" in when)
+            when.switch = when.switch.map((sw: any) => {
+              let op: TypeWhen = {} as TypeWhen;
+              if ("then" in when)
+                op.then = fromJson(sw.then);
+              if ("otherwise" in when)
+                op.otherwise = fromJson(sw.otherwise);
+              return op;
+            });
+          validation = validation[k](ref, when);
+        });
         break;
       default:
         throw new Error(`Validation "${k}" not found!`);
@@ -394,6 +414,41 @@ export function toJson(joi: any): Schema {
               replace: r.replacement
             };
           });
+        }
+        if (Array.isArray(joi[key]?.whens) && !!joi[key].whens.length) {
+
+          json.when = joi[key].whens.map((when: any) => {
+            let op: TypeWhen = {} as TypeWhen;
+            if (when.ref) {
+              op.reference = extractRef(when.ref);
+              if ("is" in when)
+                op.is = toJson(when.is);
+            }
+            else {
+              if ("is" in when)
+                op.schema = toJson(when.is);
+            }
+
+
+            if ("then" in when)
+              op.then = toJson(when.then);
+            if ("otherwise" in when)
+              op.otherwise = toJson(when.otherwise);
+            if ("break" in when && typeof when.break === "boolean")
+              op.break = when.break;
+            if ("switch" in when)
+              op.switch = when.switch.map((sw: any) => {
+                let op: TypeWhen = {} as TypeWhen;
+                op.reference = extractRef(sw.ref);
+                if ("is" in sw)
+                  op.is = toJson(sw.is);
+                if ("then" in sw)
+                  op.then = toJson(sw.then);
+                if ("otherwise" in sw)
+                  op.otherwise = toJson(sw.otherwise);
+              });
+            return op;
+          })
         }
         break;
       case "_ids":

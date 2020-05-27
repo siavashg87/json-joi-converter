@@ -15,7 +15,7 @@ declare type ArrayMinOneItem<T> = {
     0: T;
 } & Array<T>;
 export declare type Schema = AnySchema | ArraySchema | AlternativesSchema | BinarySchema | BooleanSchema | DateSchema | NumberSchema | ObjectSchema | StringSchema | LinkSchema | SymbolSchema;
-declare type TypeWhen = ({
+export declare type TypeWhen = ({
     reference: string | Reference;
     schema?: never;
 } & WhenOptions) | ({
@@ -86,7 +86,7 @@ interface AnySchema<T = any> {
         code: string;
         context: Context;
     };
-    when?: TypeWhen;
+    when?: TypeWhen | ArrayMinOneItem<TypeWhen>;
 }
 interface BooleanSchema extends AnySchema<boolean> {
     default?: boolean;
@@ -239,7 +239,7 @@ interface DateSchema extends AnySchema {
 }
 interface AlternativesSchema extends AnySchema {
     type: "alternatives";
-    conditional?: TypeWhen;
+    conditional?: TypeWhen | ArrayMinOneItem<TypeWhen>;
     match?: 'any' | 'all' | 'one';
     try?: ArrayMinOneItem<SchemaLike>;
 }

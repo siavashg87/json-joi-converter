@@ -4,12 +4,12 @@
   "description": "Converts json from and to Joi objects.",
   "license": "MIT",
   "dependencies": {
-    "@hapi/joi": "^17.1.0",
-    "typescript": "^3.9.3"
+    "@hapi/joi": "^17.1.0"
   },
   "devDependencies": {
     "@types/hapi__joi": "17.1.0",
     "@types/mocha": "^7.0.2",
+    "typescript": "^3.9.3",
     "mocha": "^7.1.2"
   },
   "engines": {
