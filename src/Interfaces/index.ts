@@ -265,7 +265,7 @@ export interface ObjectSchema<T = any> extends AnySchema<T> {
 export interface ArraySchema<T = any> extends AnySchema<T> {
   type: "array",
   has?: SchemaLike;
-  items?: SchemaLike | ArrayMinOneItem<SchemaLike>;
+  items?: Schema | ArrayMinOneItem<Schema>;
   length?: number | Reference;
   min?: number;
   max?: number;

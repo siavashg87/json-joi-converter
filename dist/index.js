@@ -202,10 +202,12 @@ function fromJson(_json) {
             // spread
             case "valid":
             case "invalid":
-            case "items":
             case "ordered":
             case "try":
                 validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]));
+                break;
+            case "items":
+                validation = validation.items.apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (j) { return fromJson(j); }));
                 break;
             // peers
             case "and":

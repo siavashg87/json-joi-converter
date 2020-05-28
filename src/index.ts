@@ -219,10 +219,13 @@ export function fromJson(_json: Schema): Joi.Schema {
       // spread
       case "valid":
       case "invalid":
-      case "items":
       case "ordered":
       case "try":
         validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]));
+        break;
+
+      case "items":
+        validation = validation.items(...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((j: Schema) => fromJson(j)));
         break;
 
       // peers
