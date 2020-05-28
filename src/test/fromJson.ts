@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import JsonJoi, {fromJson, ObjectSchema, toJson} from "../index";
+import JsonJoi, {fromJson, ObjectSchema, StringSchema, toJson} from "../index";
 
 describe('Json to Joi', () => {
   it("simple number", (done) => {
@@ -37,6 +37,10 @@ describe('Json to Joi', () => {
       ["subject", "schema", "message"]
     );
 
+    done();
+  });
+
+  it("when", (done) => {
     fromJson({
       type: "array",
       when: {
@@ -45,10 +49,12 @@ describe('Json to Joi', () => {
           valid: [1, 2, true]
         },
         then: {
+          type: "array",
           min: 1
         },
         otherwise: {
-          is: 1,
+          reference: "/type",
+          is: "A",
           then: {
             length: 2
           },
@@ -58,6 +64,49 @@ describe('Json to Joi', () => {
         }
       }
     });
+    done();
+  });
+
+  it("regex", (done) => {
+    let json: ObjectSchema = {
+      type: "object",
+      properties: {
+        a: {
+          type: "string",
+          pattern: "/a/"
+        },
+        b: {
+          type: "string",
+          regex: {$regex: "/a/", flags: "i"}
+        },
+        c: {
+          type: "string",
+          regex: {pattern: {$regex: "/a/"}}
+        }
+      }
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.properties?.a?.pattern?.regex?.$regex, '\\/a\\/');
+    assert.equal(converted.properties?.b?.pattern?.regex?.$regex, '\\/a\\/');
+    assert.equal(converted.properties?.b?.pattern?.regex?.flags, 'i');
+    assert.equal(converted.properties?.c?.pattern?.regex?.$regex, '\\/a\\/');
+
+    done();
+  });
+
+  it("replace", (done) => {
+    let json: StringSchema = {
+      type: "string",
+      replace: {find: {$regex: "a", flags: "i"}, replace: "b"}
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.replace[0]?.find?.$regex, 'a');
+    assert.equal(converted.replace[0]?.find?.flags, 'i');
+
     done();
   });
 

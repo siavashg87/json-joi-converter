@@ -25,7 +25,7 @@ export function jsonToRegex(regex: any) {
       return new RegExp(regex["$regex"], regex.flags);
     return new RegExp(regex["$regex"]);
   }
-  return regex;
+  return new RegExp(regex);
 }
 
 export function jsonToRef(ref: any) {

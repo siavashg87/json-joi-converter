@@ -174,6 +174,11 @@ export type TypeReplace = {
   replace: string;
 };
 
+type StringRegex = string | JsonRegex | {
+  pattern: JsonRegex;
+  options?: string | StringRegexOptions
+};
+
 export interface StringSchema extends AnySchema<string> {
   type: "string",
   alphanum?: boolean;
@@ -195,14 +200,8 @@ export interface StringSchema extends AnySchema<string> {
   max?: StringLength;
   min?: StringLength;
   normalize?: boolean | 'NFC' | 'NFD' | 'NFKC' | 'NFKD';
-  pattern?: string | {
-    pattern: JsonRegex;
-    options?: string | StringRegexOptions
-  };
-  regex?: string | {
-    pattern: JsonRegex;
-    options?: string | StringRegexOptions
-  };
+  pattern?: StringRegex;
+  regex?: StringRegex;
   replace?: TypeReplace | ArrayMinOneItem<TypeReplace>;
   token?: boolean;
   trim?: any;

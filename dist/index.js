@@ -103,7 +103,7 @@ function fromJson(_json) {
             case "schema":
             case "sort":
                 if (k === "uri" && Utils_1.isObject(json[k]) && "scheme" in json[k])
-                    json[k].schema = Array.isArray(json[k].schema) ? json[k].schema.map(function (o) { return Utils_1.jsonToRegex(o); }) : Utils_1.jsonToRegex(json[k].schema);
+                    json[k].scheme = Array.isArray(json[k].scheme) ? json[k].scheme.map(function (o) { return Utils_1.jsonToRegex(o); }) : Utils_1.jsonToRegex(json[k].schema);
                 validation = json[k] === true ? validation[k]() : validation[k](json[k]);
                 break;
             // single argument
@@ -242,7 +242,7 @@ function fromJson(_json) {
                     else
                         arg1 = json[k];
                     arg1 = Utils_1.jsonToRegex(arg1);
-                    validation = arg3 !== undefined ? validation[k](arg1, arg2, arg3) : arg2 !== undefined ? validation[k](arg1, arg2) : validation[k](arg1);
+                    validation = arg3 !== undefined ? validation[k](arg1, arg3, arg2) : (arg2 !== undefined ? validation[k](arg1, arg2) : validation[k](arg1));
                 }
                 break;
             }
@@ -262,12 +262,9 @@ function fromJson(_json) {
                 validation = validation[k](from, to, json[k]);
                 break;
             case "replace":
-                if (Array.isArray(json[k]))
-                    json[k].forEach(function (f) {
-                        validation[k] = validation[k](Utils_1.jsonToRegex(json[k].find), json[k].replace);
-                    });
-                else
-                    validation[k] = validation[k](Utils_1.jsonToRegex(json[k].find), json[k].replace);
+                (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach(function (r) {
+                    validation = validation[k](Utils_1.jsonToRegex(r.find), r.replace);
+                });
                 break;
             case "assert":
                 var reference = void 0, schema = void 0, message = void 0;
@@ -312,6 +309,9 @@ function fromJson(_json) {
 }
 exports.fromJson = fromJson;
 function toJson(joi) {
+    if (!Utils_1.isObject(joi)) {
+        return joi;
+    }
     var json = {
         type: joi.type
     };
@@ -352,9 +352,9 @@ function toJson(joi) {
                     var _a;
                     var method = rule.method;
                     var optionsOnly = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain"];
-                    var value = optionsOnly.includes(method)
+                    var value = lodash_1.cloneDeep(optionsOnly.includes(method)
                         ? ((!!Object.keys(((_a = rule.args) === null || _a === void 0 ? void 0 : _a.options) || {}).length) ? rule.args.options : true)
-                        : (!!Object.keys(rule.args || {}).length) ? rule.args : true;
+                        : (!!Object.keys(rule.args || {}).length) ? rule.args : true);
                     if (["length", "compare"].includes(method))
                         switch (rule.operator) {
                             case ">=":
@@ -410,12 +410,13 @@ function toJson(joi) {
                         var op = {};
                         if (when.ref) {
                             op.reference = Utils_1.extractRef(when.ref);
-                            if ("is" in when)
+                            if ("is" in when) {
                                 op.is = toJson(when.is);
+                            }
                         }
                         else {
-                            if ("is" in when)
-                                op.schema = toJson(when.is);
+                            if ("schema" in when)
+                                op.schema = toJson(when.schema);
                         }
                         if ("then" in when)
                             op.then = toJson(when.then);

@@ -29,7 +29,8 @@ const json: Schema = {
     a: {
       type: "number",
       min: 100,
-      max: 1000
+      max: 1000,
+      required: true
     }
   }
 };
@@ -37,7 +38,7 @@ const json: Schema = {
 // fromJson(json) is equal to following
 
 const joi = Joi.object({
-  a: Joi.number().min(100).max(1000)
+  a: Joi.number().min(100).max(1000).required()
 });
 
 // toJson(joi) is equal to "const json"
@@ -74,6 +75,34 @@ Joi.object({
 ```
 
 ### Joi RegExp
+```js
+let json: ObjectSchema = {
+  type: "object",
+  properties: {
+    a: {
+      type: "string",
+      pattern: "/a/"
+    },
+    b: {
+      type: "string",
+      regex: {$regex: "/a/", flags: "i"}
+    },
+    c: {
+      type: "string",
+      regex: {pattern: {$regex: "/a/"}}
+    }
+  }
+};
+
+const converted = (toJson(fromJson(json)) as any);
+
+assert.equal(converted.properties?.a?.pattern?.regex?.$regex, '\\/a\\/');
+assert.equal(converted.properties?.b?.pattern?.regex?.$regex, '\\/a\\/');
+assert.equal(converted.properties?.b?.pattern?.regex?.flags, 'i');
+assert.equal(converted.properties?.c?.pattern?.regex?.$regex, '\\/a\\/');
+```
+
+### Joi Replace
 ```js
 {
   type: "string",

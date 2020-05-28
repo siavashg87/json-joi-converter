@@ -115,7 +115,7 @@ export function fromJson(_json: Schema): Joi.Schema {
       case "schema":
       case "sort":
         if (k === "uri" && isObject(json[k]) && "scheme" in json[k])
-          json[k].schema = Array.isArray(json[k].schema) ? json[k].schema.map((o: any) => jsonToRegex(o)) : jsonToRegex(json[k].schema);
+          json[k].scheme = Array.isArray(json[k].scheme) ? json[k].scheme.map((o: any) => jsonToRegex(o)) : jsonToRegex(json[k].schema);
         validation = json[k] === true ? validation[k]() : validation[k](json[k]);
         break;
 
@@ -266,7 +266,7 @@ export function fromJson(_json: Schema): Joi.Schema {
 
           arg1 = jsonToRegex(arg1);
 
-          validation = arg3 !== undefined ? validation[k](arg1, arg2, arg3) : arg2 !== undefined ? validation[k](arg1, arg2) : validation[k](arg1);
+          validation = arg3 !== undefined ? validation[k](arg1, arg3, arg2) : (arg2 !== undefined ? validation[k](arg1, arg2) : validation[k](arg1));
         }
 
         break;
@@ -290,12 +290,9 @@ export function fromJson(_json: Schema): Joi.Schema {
         break;
 
       case "replace":
-        if (Array.isArray(json[k]))
-          json[k].forEach((f: TypeReplace) => {
-            validation[k] = validation[k](jsonToRegex(json[k].find), json[k].replace);
-          });
-        else
-          validation[k] = validation[k](jsonToRegex(json[k].find), json[k].replace);
+        (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach((r: TypeReplace) => {
+          validation = validation[k](jsonToRegex(r.find), r.replace);
+        });
         break;
 
       case "assert":
@@ -344,6 +341,9 @@ export function fromJson(_json: Schema): Joi.Schema {
 }
 
 export function toJson(joi: any): Schema {
+  if (!isObject(joi)) {
+    return joi;
+  }
   const json: any = {
     type: joi.type as Schema["type"]
   };
@@ -383,9 +383,9 @@ export function toJson(joi: any): Schema {
         joi[key].forEach((rule: any) => {
           let method: string = rule.method;
           const optionsOnly: Array<string> = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain"];
-          let value = optionsOnly.includes(method)
+          let value = cloneDeep(optionsOnly.includes(method)
             ? ((!!Object.keys(rule.args?.options || {}).length) ? rule.args.options : true)
-            : (!!Object.keys(rule.args || {}).length) ? rule.args : true;
+            : (!!Object.keys(rule.args || {}).length) ? rule.args : true);
 
           if (["length", "compare"].includes(method))
             switch (rule.operator) {
@@ -449,12 +449,13 @@ export function toJson(joi: any): Schema {
             let op: TypeWhen = {} as TypeWhen;
             if (when.ref) {
               op.reference = extractRef(when.ref);
-              if ("is" in when)
+              if ("is" in when)  {
                 op.is = toJson(when.is);
+              }
             }
             else {
-              if ("is" in when)
-                op.schema = toJson(when.is);
+              if ("schema" in when)
+                op.schema = toJson(when.schema);
             }
 
 

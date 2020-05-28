@@ -25,7 +25,7 @@ function jsonToRegex(regex) {
             return new RegExp(regex["$regex"], regex.flags);
         return new RegExp(regex["$regex"]);
     }
-    return regex;
+    return new RegExp(regex);
 }
 exports.jsonToRegex = jsonToRegex;
 function jsonToRef(ref) {
