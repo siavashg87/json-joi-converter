@@ -316,8 +316,13 @@ function toJson(joi) {
         type: joi.type
     };
     Object.keys(joi).forEach(function (key) {
-        var _a, _b;
+        var _a, _b, _c;
         var value = joi[key];
+        /*
+        console.log(key);
+        if (key === "$_terms" && value.items && value.items.length)
+          console.log(value.items);
+          */
         switch (key) {
             case "_valids":
             case "_invalids":
@@ -396,7 +401,12 @@ function toJson(joi) {
                 });
                 break;
             case "$_terms":
-                if (Array.isArray((_a = joi[key]) === null || _a === void 0 ? void 0 : _a.replacements)) {
+                if (Array.isArray((_a = joi[key]) === null || _a === void 0 ? void 0 : _a.items) && joi[key].items.length) {
+                    json.items = joi[key].items.map(function (it) { return toJson(it); });
+                    if (json.items.length === 1)
+                        json.items = json.items[0];
+                }
+                if (Array.isArray((_b = joi[key]) === null || _b === void 0 ? void 0 : _b.replacements)) {
                     // @ts-ignore
                     json.replace = joi[key].replacements.map(function (r) {
                         return {
@@ -405,7 +415,7 @@ function toJson(joi) {
                         };
                     });
                 }
-                if (Array.isArray((_b = joi[key]) === null || _b === void 0 ? void 0 : _b.whens) && !!joi[key].whens.length) {
+                if (Array.isArray((_c = joi[key]) === null || _c === void 0 ? void 0 : _c.whens) && !!joi[key].whens.length) {
                     json.when = joi[key].whens.map(function (when) {
                         var op = {};
                         if (when.ref) {

@@ -95,4 +95,36 @@ describe('Json to Joi', function () {
         assert.equal((_d = (_c = converted.replace[0]) === null || _c === void 0 ? void 0 : _c.find) === null || _d === void 0 ? void 0 : _d.flags, 'i');
         done();
     });
+    it("array - items - object", function (done) {
+        var json = {
+            type: "array",
+            items: {
+                type: "number",
+                min: 3
+            }
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.equal(converted.items.type, "number");
+        done();
+    });
+    it("array - items - array - object", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3
+                },
+                {
+                    type: "string"
+                }
+            ]
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.equal(converted.items.length, 2);
+        assert.equal(converted.items[0].type, "number");
+        assert.equal(converted.items[0].min, 3);
+        assert.equal(converted.items[1].type, "string");
+        done();
+    });
 });

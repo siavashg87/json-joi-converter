@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import JsonJoi, {fromJson, ObjectSchema, StringSchema, toJson} from "../index";
+import JsonJoi, {ArraySchema, fromJson, ObjectSchema, StringSchema, toJson} from "../index";
 
 describe('Json to Joi', () => {
   it("simple number", (done) => {
@@ -106,6 +106,46 @@ describe('Json to Joi', () => {
 
     assert.equal(converted.replace[0]?.find?.$regex, 'a');
     assert.equal(converted.replace[0]?.find?.flags, 'i');
+
+    done();
+  });
+
+  it("array - items - object", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: {
+        type: "number",
+        min: 3
+      }
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.items.type, "number");
+
+    done();
+  });
+
+  it("array - items - array - object", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3
+        },
+        {
+          type: "string"
+        }
+      ]
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.items.length, 2);
+    assert.equal(converted.items[0].type, "number");
+    assert.equal(converted.items[0].min, 3);
+    assert.equal(converted.items[1].type, "string");
 
     done();
   });

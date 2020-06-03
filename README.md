@@ -41,9 +41,8 @@ const joi = Joi.object({
   a: Joi.number().min(100).max(1000).required()
 });
 
-// toJson(joi) is equal to "const json"
-
-console.log(JSON.stringify(toJson(joi)) === JSON.stringify(toJson(fromJson(json)))); // TRUE
+// VALID
+assert.deepEqual(toJson(joi), toJson(fromJson(json)));
 
 
 ```

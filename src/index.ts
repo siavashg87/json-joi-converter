@@ -349,6 +349,15 @@ export function toJson(joi: any): Schema {
   };
   Object.keys(joi).forEach((key: string) => {
     const value = joi[key];
+
+
+    /*
+    console.log(key);
+    if (key === "$_terms" && value.items && value.items.length)
+      console.log(value.items);
+      */
+
+
     switch (key) {
       case "_valids":
       case "_invalids":
@@ -434,6 +443,11 @@ export function toJson(joi: any): Schema {
         });
         break;
       case "$_terms":
+        if (Array.isArray(joi[key]?.items) && joi[key].items.length) {
+          (json as ArraySchema).items = joi[key].items.map((it: Joi.Schema) => toJson(it));
+          if (json.items.length === 1)
+            json.items = json.items[0];
+        }
         if (Array.isArray(joi[key]?.replacements)) {
           // @ts-ignore
           (json as StringSchema).replace = joi[key].replacements.map(r => {
