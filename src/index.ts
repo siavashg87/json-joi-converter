@@ -219,13 +219,13 @@ export function fromJson(_json: Schema): Joi.Schema {
       // spread
       case "valid":
       case "invalid":
-      case "ordered":
       case "try":
         validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]));
         break;
 
       case "items":
-        validation = validation.items(...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((j: Schema) => fromJson(j)));
+      case "ordered":
+        validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((j: Schema) => fromJson(j)));
         break;
 
       // peers
@@ -349,15 +349,6 @@ export function toJson(joi: any): Schema {
   };
   Object.keys(joi).forEach((key: string) => {
     const value = joi[key];
-
-
-    /*
-    console.log(key);
-    if (key === "$_terms" && value.items && value.items.length)
-      console.log(value.items);
-      */
-
-
     switch (key) {
       case "_valids":
       case "_invalids":
@@ -390,6 +381,8 @@ export function toJson(joi: any): Schema {
       case "_singleRules":
       case "_rules":
         joi[key].forEach((rule: any) => {
+          if (rule.method === "items")
+            return;
           let method: string = rule.method;
           const optionsOnly: Array<string> = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain"];
           let value = cloneDeep(optionsOnly.includes(method)
@@ -447,6 +440,9 @@ export function toJson(joi: any): Schema {
           (json as ArraySchema).items = joi[key].items.map((it: Joi.Schema) => toJson(it));
           if (json.items.length === 1)
             json.items = json.items[0];
+        }
+        if (Array.isArray(joi[key]?.ordered) && joi[key].ordered.length) {
+          (json as ArraySchema).ordered = joi[key].ordered.map((it: Joi.Schema) => toJson(it));
         }
         if (Array.isArray(joi[key]?.replacements)) {
           // @ts-ignore

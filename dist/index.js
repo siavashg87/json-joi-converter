@@ -202,12 +202,12 @@ function fromJson(_json) {
             // spread
             case "valid":
             case "invalid":
-            case "ordered":
             case "try":
                 validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]));
                 break;
             case "items":
-                validation = validation.items.apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (j) { return fromJson(j); }));
+            case "ordered":
+                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (j) { return fromJson(j); }));
                 break;
             // peers
             case "and":
@@ -316,13 +316,8 @@ function toJson(joi) {
         type: joi.type
     };
     Object.keys(joi).forEach(function (key) {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         var value = joi[key];
-        /*
-        console.log(key);
-        if (key === "$_terms" && value.items && value.items.length)
-          console.log(value.items);
-          */
         switch (key) {
             case "_valids":
             case "_invalids":
@@ -355,6 +350,8 @@ function toJson(joi) {
             case "_rules":
                 joi[key].forEach(function (rule) {
                     var _a;
+                    if (rule.method === "items")
+                        return;
                     var method = rule.method;
                     var optionsOnly = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain"];
                     var value = lodash_1.cloneDeep(optionsOnly.includes(method)
@@ -406,7 +403,10 @@ function toJson(joi) {
                     if (json.items.length === 1)
                         json.items = json.items[0];
                 }
-                if (Array.isArray((_b = joi[key]) === null || _b === void 0 ? void 0 : _b.replacements)) {
+                if (Array.isArray((_b = joi[key]) === null || _b === void 0 ? void 0 : _b.ordered) && joi[key].ordered.length) {
+                    json.ordered = joi[key].ordered.map(function (it) { return toJson(it); });
+                }
+                if (Array.isArray((_c = joi[key]) === null || _c === void 0 ? void 0 : _c.replacements)) {
                     // @ts-ignore
                     json.replace = joi[key].replacements.map(function (r) {
                         return {
@@ -415,7 +415,7 @@ function toJson(joi) {
                         };
                     });
                 }
-                if (Array.isArray((_c = joi[key]) === null || _c === void 0 ? void 0 : _c.whens) && !!joi[key].whens.length) {
+                if (Array.isArray((_d = joi[key]) === null || _d === void 0 ? void 0 : _d.whens) && !!joi[key].whens.length) {
                     json.when = joi[key].whens.map(function (when) {
                         var op = {};
                         if (when.ref) {

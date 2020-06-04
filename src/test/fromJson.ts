@@ -150,4 +150,30 @@ describe('Json to Joi', () => {
     done();
   });
 
+  it("array - ordered", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      ordered: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        },
+        {
+          type: "string"
+        }
+      ]
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.ordered.length, 2);
+    assert.equal(converted.ordered[0].type, "number");
+    assert.equal(converted.ordered[0].required, true);
+    assert.equal(converted.ordered[0].min, 3);
+    assert.equal(converted.ordered[1].type, "string");
+
+    done();
+  });
+
 });

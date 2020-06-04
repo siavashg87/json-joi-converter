@@ -127,4 +127,26 @@ describe('Json to Joi', function () {
         assert.equal(converted.items[1].type, "string");
         done();
     });
+    it("array - ordered", function (done) {
+        var json = {
+            type: "array",
+            ordered: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                },
+                {
+                    type: "string"
+                }
+            ]
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.equal(converted.ordered.length, 2);
+        assert.equal(converted.ordered[0].type, "number");
+        assert.equal(converted.ordered[0].required, true);
+        assert.equal(converted.ordered[0].min, 3);
+        assert.equal(converted.ordered[1].type, "string");
+        done();
+    });
 });
