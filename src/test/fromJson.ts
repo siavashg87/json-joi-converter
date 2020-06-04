@@ -176,4 +176,128 @@ describe('Json to Joi', () => {
     done();
   });
 
+  it("array - single", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        }
+      ],
+      single: true
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.single, true);
+
+    done();
+  });
+
+  it("array - sparse", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        }
+      ],
+      sparse: true
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.equal(converted.sparse, true);
+
+    done();
+  });
+
+  it("array - unique", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        }
+      ],
+      unique: true
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.deepEqual(converted.unique, {options: {}});
+
+    done();
+  });
+
+  it("array - unique - options", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        }
+      ],
+      unique: {
+        options: {
+          ignoreUndefined: true
+        }
+      }
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.deepEqual(converted.unique, {options: {ignoreUndefined: true}});
+
+    done();
+  });
+
+  it("array - unique - string", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        }
+      ],
+      unique: "customer.id"
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.deepEqual(converted.unique, {comparator: "customer.id", options: {}});
+
+    done();
+  });
+
+  it("array - unique - function", (done) => {
+    let json: ArraySchema = {
+      type: "array",
+      items: [
+        {
+          type: "number",
+          min: 3,
+          required: true
+        }
+      ],
+      unique: "(a, b) => a.property === b.property"
+    };
+
+    const converted = (toJson(fromJson(json)) as any);
+
+    assert.deepEqual(converted.unique, {comparator: "(a, b) => a.property === b.property", options: {}});
+
+    done();
+  });
+
 });

@@ -1,12 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.propertiesToJson = exports.extractRef = exports.jsonToRef = exports.jsonToRegex = exports.regexToString = exports.isFunction = exports.isObject = void 0;
+exports.propertiesToJson = exports.extractRef = exports.jsonToRef = exports.jsonToRegex = exports.regexToString = exports.isFunction = exports.isStringFunction = exports.isObject = void 0;
 var Joi = require("@hapi/joi");
 var index_1 = require("./index");
 function isObject(obj) {
     return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 }
 exports.isObject = isObject;
+function isStringFunction(str) {
+    if (typeof str === "string")
+        return str.startsWith("(") || str.startsWith("function");
+    return false;
+}
+exports.isStringFunction = isStringFunction;
 exports.isFunction = function (fn) { return typeof fn === "function"; };
 function regexToString(regex) {
     var str = regex.toString();

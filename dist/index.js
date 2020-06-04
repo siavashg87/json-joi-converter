@@ -249,9 +249,19 @@ function fromJson(_json) {
             case "unique":
                 if (json[k] === true)
                     validation = validation[k]();
-                else if (Utils_1.isObject(json[k])) {
-                    var comparator = eval(json[k].comparator);
-                    validation = "options" in json[k] ? validation[k](comparator, json[k].options) : validation[k](comparator);
+                else {
+                    var comparator = void 0, options = {};
+                    if (Utils_1.isObject(json[k])) {
+                        if ("comparator" in json[k])
+                            comparator = json[k].comparator;
+                        if ("options" in json[k])
+                            options = json[k].options;
+                    }
+                    else
+                        comparator = json[k];
+                    if (Utils_1.isStringFunction(comparator))
+                        comparator = eval(comparator);
+                    validation = validation[k](comparator, options);
                 }
                 break;
             case "rename":
@@ -340,8 +350,10 @@ function toJson(joi) {
                 break;
             case "_flags":
                 if (joi[key]) {
-                    if ("default" in joi[key])
-                        json.default = joi[key].default;
+                    ["default", "single", "sparse"].forEach(function (_fk) {
+                        if (_fk in joi[key])
+                            json[_fk] = joi[key][_fk];
+                    });
                     if ("presence" in joi[key])
                         json[joi[key].presence] = true;
                 }

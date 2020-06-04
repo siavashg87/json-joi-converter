@@ -273,8 +273,10 @@ export interface ArraySchema<T = any> extends AnySchema<T> {
   sort?: boolean | ArraySortOptions;
   sparse?: any;
   unique?: boolean | string | {
-    comparator: string; // function
-    options?: ArrayUniqueOptions;
+    comparator?: string; // function
+    options?: {
+      ignoreUndefined?: boolean;
+    };
   };
 }
 

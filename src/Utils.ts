@@ -6,6 +6,12 @@ export function isObject(obj: any): boolean {
   return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 }
 
+export function isStringFunction(str: string): boolean {
+  if (typeof str === "string")
+    return str.startsWith("(") || str.startsWith("function");
+  return false;
+}
+
 export const isFunction = (fn: any) => typeof fn === "function";
 
 export function regexToString(regex: RegExp): JsonRegex {

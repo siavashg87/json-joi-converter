@@ -149,4 +149,104 @@ describe('Json to Joi', function () {
         assert.equal(converted.ordered[1].type, "string");
         done();
     });
+    it("array - single", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                }
+            ],
+            single: true
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.equal(converted.single, true);
+        done();
+    });
+    it("array - sparse", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                }
+            ],
+            sparse: true
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.equal(converted.sparse, true);
+        done();
+    });
+    it("array - unique", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                }
+            ],
+            unique: true
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.deepEqual(converted.unique, { options: {} });
+        done();
+    });
+    it("array - unique - options", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                }
+            ],
+            unique: {
+                options: {
+                    ignoreUndefined: true
+                }
+            }
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.deepEqual(converted.unique, { options: { ignoreUndefined: true } });
+        done();
+    });
+    it("array - unique - string", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                }
+            ],
+            unique: "customer.id"
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.deepEqual(converted.unique, { comparator: "customer.id", options: {} });
+        done();
+    });
+    it("array - unique - function", function (done) {
+        var json = {
+            type: "array",
+            items: [
+                {
+                    type: "number",
+                    min: 3,
+                    required: true
+                }
+            ],
+            unique: "(a, b) => a.property === b.property"
+        };
+        var converted = index_1.toJson(index_1.fromJson(json));
+        assert.deepEqual(converted.unique, { comparator: "(a, b) => a.property === b.property", options: {} });
+        done();
+    });
 });
