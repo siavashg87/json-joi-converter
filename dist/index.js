@@ -49,7 +49,6 @@ function translateWhen(when, validation) {
             return op;
         });
     validation = validation.when(ref, when);
-    console.log(Object.keys(when));
     return validation;
 }
 function fromJson(_json) {

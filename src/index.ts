@@ -58,8 +58,6 @@ function translateWhen(when: any, validation: Joi.Schema | null = null): Joi.Sch
     });
   validation = validation.when(ref, when);
 
-  console.log(Object.keys(when));
-
   return validation;
 }
 
