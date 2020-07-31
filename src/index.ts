@@ -58,6 +58,8 @@ function translateWhen(when: any, validation: Joi.Schema | null = null): Joi.Sch
     });
   validation = validation.when(ref, when);
 
+  console.log(Object.keys(when));
+
   return validation;
 }
 
@@ -344,7 +346,7 @@ export function fromJson(_json: Schema): Joi.Schema {
       case "when":
       case "conditional":
         (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach((when: any) => {
-          translateWhen(when, validation);
+          validation = translateWhen(when, validation);
         });
         break;
       default:

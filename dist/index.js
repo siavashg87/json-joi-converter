@@ -49,6 +49,7 @@ function translateWhen(when, validation) {
             return op;
         });
     validation = validation.when(ref, when);
+    console.log(Object.keys(when));
     return validation;
 }
 function fromJson(_json) {
@@ -305,7 +306,7 @@ function fromJson(_json) {
             case "when":
             case "conditional":
                 (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach(function (when) {
-                    translateWhen(when, validation);
+                    validation = translateWhen(when, validation);
                 });
                 break;
             default:

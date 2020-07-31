@@ -1,6 +1,6 @@
 {
   "name": "json-joi-converter",
-  "version": "17.1.1-f",
+  "version": "17.1.1-g",
   "description": "Converts json from and to Joi objects.",
   "license": "MIT",
   "dependencies": {
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/hapi__joi": "17.1.0",
-    "@types/lodash": "^4.14.153",
+    "@types/lodash": "^4.14.158",
     "@types/mocha": "^7.0.2",
     "mocha": "^7.1.2",
     "typescript": "^3.9.3"
