@@ -212,10 +212,33 @@ describe('Joi to Json', () => {
     assert.deepEqual(
       toJson(JsonJoi.string().replace(/a/gi, "b").replace("a", "b")),
       {
-        "type": "string", "replace": [
+        "type": "string",
+        "replace": [
           {find: {$regex: "a", flags: "gi"}, replace: "b"},
           {find: {$regex: "a", flags: "g"}, replace: "b"}
         ]
+      }
+    );
+    done();
+  });
+
+  it("allow", (done) => {
+    assert.deepEqual(
+      toJson(JsonJoi.string().allow(null)),
+      {
+        "type": "string",
+        allow: [null]
+      }
+    );
+    done();
+  });
+
+  it("valid", (done) => {
+    assert.deepEqual(
+      toJson(JsonJoi.string().valid(null)),
+      {
+        "type": "string",
+        valid: [null]
       }
     );
     done();

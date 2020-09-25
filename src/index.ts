@@ -120,13 +120,11 @@ export function fromJson(_json: Schema): Joi.Schema {
         break;
 
       // single argument
-      case "allow":
       case "alter":
       case "cast":
       case "concat":
       case "default":
       case "description":
-      case "disallow":
       case "equal":
       case "extract":
       case "failover":
@@ -135,7 +133,6 @@ export function fromJson(_json: Schema): Joi.Schema {
       case "message":
       case "messages":
       case "meta":
-      case "not":
       case "note":
       case "only":
       case "options":
@@ -217,10 +214,13 @@ export function fromJson(_json: Schema): Joi.Schema {
       }
 
       // spread
+      case "allow":
+      case "disallow":
+      case "not":
       case "valid":
       case "invalid":
       case "try":
-        validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]));
+        validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((v: any) => jsonToRef(v)));
         break;
 
       case "items":
@@ -369,7 +369,7 @@ export function toJson(joi: any): Schema {
         let schemaKey = null;
         switch (key) {
           case "_valids":
-            schemaKey = "valid";
+            schemaKey = joi._flags.only === true ? "valid" : "allow";
             break;
           case "_invalids":
             schemaKey = "invalid";

@@ -119,10 +119,25 @@ describe('Joi to Json', function () {
     });
     it("regex - array", function (done) {
         assert.deepEqual(index_1.toJson(index_1.default.string().replace(/a/gi, "b").replace("a", "b")), {
-            "type": "string", "replace": [
+            "type": "string",
+            "replace": [
                 { find: { $regex: "a", flags: "gi" }, replace: "b" },
                 { find: { $regex: "a", flags: "g" }, replace: "b" }
             ]
+        });
+        done();
+    });
+    it("allow", function (done) {
+        assert.deepEqual(index_1.toJson(index_1.default.string().allow(null)), {
+            "type": "string",
+            allow: [null]
+        });
+        done();
+    });
+    it("valid", function (done) {
+        assert.deepEqual(index_1.toJson(index_1.default.string().valid(null)), {
+            "type": "string",
+            valid: [null]
         });
         done();
     });

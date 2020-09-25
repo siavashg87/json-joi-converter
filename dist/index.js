@@ -107,13 +107,11 @@ function fromJson(_json) {
                 validation = json[k] === true ? validation[k]() : validation[k](json[k]);
                 break;
             // single argument
-            case "allow":
             case "alter":
             case "cast":
             case "concat":
             case "default":
             case "description":
-            case "disallow":
             case "equal":
             case "extract":
             case "failover":
@@ -122,7 +120,6 @@ function fromJson(_json) {
             case "message":
             case "messages":
             case "meta":
-            case "not":
             case "note":
             case "only":
             case "options":
@@ -200,10 +197,13 @@ function fromJson(_json) {
                 break;
             }
             // spread
+            case "allow":
+            case "disallow":
+            case "not":
             case "valid":
             case "invalid":
             case "try":
-                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]));
+                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (v) { return Utils_1.jsonToRef(v); }));
                 break;
             case "items":
             case "ordered":
@@ -334,7 +334,7 @@ function toJson(joi) {
                 var schemaKey = null;
                 switch (key) {
                     case "_valids":
-                        schemaKey = "valid";
+                        schemaKey = joi._flags.only === true ? "valid" : "allow";
                         break;
                     case "_invalids":
                         schemaKey = "invalid";
