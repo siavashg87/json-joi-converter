@@ -4,11 +4,11 @@
 [![Node version required](https://img.shields.io/node/v/json-joi-converter.svg)](https://www.npmjs.com/package/json-joi-converter)
 [![Latest Stable Version](https://img.shields.io/npm/v/json-joi-converter.svg)](https://www.npmjs.com/package/json-joi-converter)
 
-Json-Joi is a powerfull TypeScript module that builds on top of [Joi](https://www.npmjs.com/package/@hapi/joi) module. Converts Joi objects to json and vice versa, makes Joi objects from json.
+Json-Joi is a powerfull TypeScript module that builds on top of [Joi](https://www.npmjs.com/package/joi) module. Converts Joi objects to json and vice versa, makes Joi objects from json.
 
 From Joi description: "The most powerful schema description language and data validator for JavaScript."
 
-See [Joi API](https://hapi.dev/module/joi/api/?v=17.1.1) for documentation and api.
+See [Joi API](https://joi.dev/api/?v=17.2.1) for documentation and api.
 
 Json-Joi supports almost entire Joi API!
 
