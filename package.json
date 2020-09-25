@@ -1,6 +1,6 @@
 {
   "name": "json-joi-converter",
-  "version": "17.2.1",
+  "version": "1.1.1",
   "description": "Converts json from and to Joi objects.",
   "license": "MIT",
   "dependencies": {
