@@ -4,13 +4,13 @@
   "description": "Converts json from and to Joi objects.",
   "license": "MIT",
   "dependencies": {
-    "joi": "^17.2.1",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@types/hapi__joi": "17.1.0",
     "@types/lodash": "^4.14.158",
     "@types/mocha": "^7.0.2",
+    "@types/node": "14.14.10",
+    "joi": "17.3.0",
     "mocha": "^7.1.2",
     "typescript": "^3.9.3"
   },
@@ -22,6 +22,9 @@
   "scripts": {
     "build": "rm -rf dist/* && rm -rf dts/* && tsc",
     "test": "mocha ./dist/test"
+  },
+  "peerDependencies": {
+    "joi": "^17.3.0"
   },
   "repository": {
     "type": "git",
