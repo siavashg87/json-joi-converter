@@ -350,7 +350,7 @@ function toJson(joi) {
                 break;
             case "_flags":
                 if (joi[key]) {
-                    ["default", "single", "sparse"].forEach(function (_fk) {
+                    ["default", "single", "sparse", "label"].forEach(function (_fk) {
                         if (_fk in joi[key])
                             json[_fk] = joi[key][_fk];
                     });
