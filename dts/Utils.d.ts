@@ -1,4 +1,4 @@
-import * as Joi from "@hapi/joi";
+import * as Joi from "joi";
 import { JsonRegex } from "./Interfaces";
 export declare function isObject(obj: any): boolean;
 export declare function isStringFunction(str: string): boolean;

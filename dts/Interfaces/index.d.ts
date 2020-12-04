@@ -1,4 +1,4 @@
-import { ArraySortOptions, Base64Options, DataUriOptions, DomainOptions, EmailOptions, GuidOptions, HexOptions, HierarchySeparatorOptions, IpOptions, LanguageMessages, ObjectPatternOptions, PresenceMode, RenameOptions, RuleOptions, StringRegexOptions, UriOptions, ValidationOptions, WhenOptions, WhenSchemaOptions, Context, ReferenceOptions } from "@hapi/joi";
+import { ArraySortOptions, Base64Options, DataUriOptions, DomainOptions, EmailOptions, GuidOptions, HexOptions, HierarchySeparatorOptions, IpOptions, LanguageMessages, ObjectPatternOptions, PresenceMode, RenameOptions, RuleOptions, StringRegexOptions, UriOptions, ValidationOptions, WhenOptions, WhenSchemaOptions, Context, ReferenceOptions } from "joi";
 export interface Reference extends Omit<ReferenceOptions, "adjust"> {
     $ref: string;
     adjust?: string;
