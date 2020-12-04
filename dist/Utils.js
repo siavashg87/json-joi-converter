@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.propertiesToJson = exports.extractRef = exports.jsonToRef = exports.jsonToRegex = exports.regexToString = exports.isFunction = exports.isStringFunction = exports.isObject = void 0;
-var Joi = require("@hapi/joi");
+var Joi = require("joi");
 var index_1 = require("./index");
 function isObject(obj) {
     return obj !== null && typeof obj === "object" && !Array.isArray(obj);

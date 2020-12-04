@@ -8,7 +8,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toJson = exports.fromJson = void 0;
-var Joi = require("@hapi/joi");
+var Joi = require("joi");
 var lodash_1 = require("lodash");
 var Utils_1 = require("./Utils");
 var OptionKey = {

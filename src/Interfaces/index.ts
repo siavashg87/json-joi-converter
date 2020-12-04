@@ -21,7 +21,7 @@ import {
   WhenSchemaOptions,
   Context,
   ReferenceOptions
-} from "@hapi/joi";
+} from "joi";
 
 export interface Reference extends Omit<ReferenceOptions, "adjust"> {
   $ref: string;

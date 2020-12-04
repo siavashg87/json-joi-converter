@@ -1,4 +1,4 @@
-import * as Joi from "@hapi/joi";
+import * as Joi from "joi";
 import {cloneDeep} from "lodash";
 import {isObject, regexToString, extractRef, jsonToRegex, jsonToRef, propertiesToJson, isStringFunction} from "./Utils";
 import {
