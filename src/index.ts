@@ -469,6 +469,10 @@ export function toJson(joi: any): Schema {
             };
           });
         }
+        if (Array.isArray(joi[key]?.metas) && joi[key].metas.length) {
+          json.meta = {};
+          joi[key].metas.forEach((meta: Record<string, any>) => json.meta = {...json.meta, ...meta});
+        }
         if (Array.isArray(joi[key]?.whens) && !!joi[key].whens.length) {
 
           json.when = joi[key].whens.map((when: any) => {

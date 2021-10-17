@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -326,7 +337,7 @@ function toJson(joi) {
         type: joi.type
     };
     Object.keys(joi).forEach(function (key) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         var value = joi[key];
         switch (key) {
             case "_valids":
@@ -427,7 +438,11 @@ function toJson(joi) {
                         };
                     });
                 }
-                if (Array.isArray((_d = joi[key]) === null || _d === void 0 ? void 0 : _d.whens) && !!joi[key].whens.length) {
+                if (Array.isArray((_d = joi[key]) === null || _d === void 0 ? void 0 : _d.metas) && joi[key].metas.length) {
+                    json.meta = {};
+                    joi[key].metas.forEach(function (meta) { return json.meta = __assign(__assign({}, json.meta), meta); });
+                }
+                if (Array.isArray((_e = joi[key]) === null || _e === void 0 ? void 0 : _e.whens) && !!joi[key].whens.length) {
                     json.when = joi[key].whens.map(function (when) {
                         var op = {};
                         if (when.ref) {
