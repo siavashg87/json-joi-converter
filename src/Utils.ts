@@ -26,6 +26,8 @@ export function regexToString(regex: RegExp): JsonRegex {
 }
 
 export function jsonToRegex(regex: any) {
+  if (regex.regex)
+    regex = regex.regex;
   if (isObject(regex) && "$regex" in regex) {
     if ("flags" in regex)
       return new RegExp(regex["$regex"], regex.flags);
