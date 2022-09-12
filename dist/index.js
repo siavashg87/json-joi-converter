@@ -376,7 +376,7 @@ function toJson(joi) {
                     if (rule.method === "items")
                         return;
                     var method = rule.method;
-                    var optionsOnly = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain"];
+                    var optionsOnly = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain", "uri"];
                     var value = lodash_1.cloneDeep(optionsOnly.includes(method)
                         ? ((!!Object.keys(((_a = rule.args) === null || _a === void 0 ? void 0 : _a.options) || {}).length) ? rule.args.options : true)
                         : (!!Object.keys(rule.args || {}).length) ? rule.args : true);
@@ -407,6 +407,8 @@ function toJson(joi) {
                                 break;
                         }
                     }
+                    if (method === "trim")
+                        value = true;
                     if (value === null || value === void 0 ? void 0 : value.limit)
                         value.limit = Utils_1.extractRef(value === null || value === void 0 ? void 0 : value.limit);
                     if (Utils_1.isObject(value)) {

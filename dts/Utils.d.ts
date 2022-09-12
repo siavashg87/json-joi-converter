@@ -7,4 +7,4 @@ export declare function regexToString(regex: RegExp): JsonRegex;
 export declare function jsonToRegex(regex: any): RegExp;
 export declare function jsonToRef(ref: any): any;
 export declare function extractRef(obj: any): any;
-export declare function propertiesToJson(properties: any): Record<string, Joi.Schema>;
+export declare function propertiesToJson(properties: any): Record<string, Joi.Schema<any>>;

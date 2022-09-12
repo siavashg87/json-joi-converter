@@ -400,7 +400,7 @@ export function toJson(joi: any): Schema {
           if (rule.method === "items")
             return;
           let method: string = rule.method;
-          const optionsOnly: Array<string> = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain"];
+          const optionsOnly: Array<string> = ["guid", "uuid", "email", "hex", "hostname", "ip", "base64", "dataUri", "domain", "uri"];
           let value = cloneDeep(optionsOnly.includes(method)
             ? ((!!Object.keys(rule.args?.options || {}).length) ? rule.args.options : true)
             : (!!Object.keys(rule.args || {}).length) ? rule.args : true);
@@ -433,6 +433,9 @@ export function toJson(joi: any): Schema {
                 break;
             }
           }
+
+          if (method === "trim")
+            value = true;
 
 
           if (value?.limit)
