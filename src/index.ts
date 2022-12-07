@@ -385,7 +385,7 @@ export function toJson(joi: any): Schema {
         break;
       case "_flags":
         if (joi[key]) {
-          ["default", "single", "sparse", "label"].forEach((_fk: string) => {
+          ["default", "single", "sparse", "label", "unknown"].forEach((_fk: string) => {
             if (_fk in joi[key])
               json[_fk] = joi[key][_fk];
           });
