@@ -136,6 +136,7 @@ export interface AnySchema<T = any> {
     context: Context;
   }
   when?: TypeWhen | ArrayMinOneItem<TypeWhen>;
+  precision?: number;
 }
 
 

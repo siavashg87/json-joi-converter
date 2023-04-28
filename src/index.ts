@@ -364,6 +364,10 @@ export function toJson(joi: any): Schema {
   Object.keys(joi).forEach((key: string) => {
     const value = joi[key];
     switch (key) {
+      case "_preferences":
+        if (joi._preferences?.convert === false)
+          json.strict = true;
+        break;
       case "_valids":
       case "_invalids":
         let schemaKey = null;
