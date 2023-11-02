@@ -1,29 +1,29 @@
-import * as assert from "assert";
-import JsonJoi, {fromJson, toJson} from "../index";
+import * as assert from 'assert';
+import JsonJoi, { toJson } from '../index';
 
 describe('Joi to Json - meta', () => {
 
-  it("meta", (done) => {
+  it('meta', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().meta({test: true})),
+      toJson(JsonJoi.string().meta({ test: true })),
       {
-        meta: {test: true},
+        meta: { test: true },
         type: 'string'
       }
     );
     done();
   });
 
-  it("meta object", (done) => {
+  it('meta object', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.object({
-        test: JsonJoi.string().meta({test: true})
+        test: JsonJoi.string().meta({ test: true })
       })),
       {
         type: 'object',
         properties: {
           test: {
-            meta: {test: true},
+            meta: { test: true },
             type: 'string'
           }
         }

@@ -1,18 +1,19 @@
-import * as assert from "assert";
-import JsonJoi, {ArraySchema, fromJson, ObjectSchema, StringSchema, toJson} from "../index";
+import * as assert from 'assert';
+import { ArraySchema, fromJson, ObjectSchema, StringSchema, toJson } from '../index';
 
 describe('Json to Joi', () => {
-  it("simple number", (done) => {
+  it('simple number', (done) => {
     let json: ObjectSchema = {
-      type: "object",
+      type: 'object',
       properties: {
         a: {
-          type: "number",
+          type: 'number',
           min: 100,
           max: 1000
         }
       }
     };
+
     assert.deepEqual(
       toJson(fromJson(json)),
       json
@@ -20,41 +21,42 @@ describe('Json to Joi', () => {
     done();
   });
 
-  it("assert", (done) => {
+  it('assert', (done) => {
     let json: ObjectSchema = {
-      type: "object",
-      assert: ["a", "b", "c"],
+      type: 'object',
+      assert: ['a', 'b', 'c'],
       properties: {
         a: {
-          type: "number",
+          type: 'number',
           min: 100,
           max: 1000
         }
       }
     };
+
     assert.deepEqual(
       Object.keys((toJson(fromJson(json)) as any).assert),
-      ["subject", "schema", "message"]
+      ['subject', 'schema', 'message']
     );
 
     done();
   });
 
-  it("when", (done) => {
+  it('when', (done) => {
     fromJson({
-      type: "array",
+      type: 'array',
       when: {
-        reference: "/type",
+        reference: '/type',
         is: {
           valid: [1, 2, true]
         },
         then: {
-          type: "array",
+          type: 'array',
           min: 1
         },
         otherwise: {
-          reference: "/type",
-          is: "A",
+          reference: '/type',
+          is: 'A',
           then: {
             length: 2
           },
@@ -67,21 +69,21 @@ describe('Json to Joi', () => {
     done();
   });
 
-  it("regex", (done) => {
+  it('regex', (done) => {
     let json: ObjectSchema = {
-      type: "object",
+      type: 'object',
       properties: {
         a: {
-          type: "string",
-          pattern: "/a/"
+          type: 'string',
+          pattern: '/a/'
         },
         b: {
-          type: "string",
-          regex: {$regex: "/a/", flags: "i"}
+          type: 'string',
+          regex: { $regex: '/a/', flags: 'i' }
         },
         c: {
-          type: "string",
-          regex: {pattern: {$regex: "/a/"}}
+          type: 'string',
+          regex: { pattern: { $regex: '/a/' } }
         }
       }
     };
@@ -96,10 +98,10 @@ describe('Json to Joi', () => {
     done();
   });
 
-  it("replace", (done) => {
+  it('replace', (done) => {
     let json: StringSchema = {
-      type: "string",
-      replace: {find: {$regex: "a", flags: "i"}, replace: "b"}
+      type: 'string',
+      replace: { find: { $regex: 'a', flags: 'i' }, replace: 'b' }
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -110,32 +112,32 @@ describe('Json to Joi', () => {
     done();
   });
 
-  it("array - items - object", (done) => {
+  it('array - items - object', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: {
-        type: "number",
+        type: 'number',
         min: 3
       }
     };
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.equal(converted.items.type, "number");
+    assert.equal(converted.items.type, 'number');
 
     done();
   });
 
-  it("array - items - array - object", (done) => {
+  it('array - items - array - object', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3
         },
         {
-          type: "string"
+          type: 'string'
         }
       ]
     };
@@ -143,24 +145,24 @@ describe('Json to Joi', () => {
     const converted = (toJson(fromJson(json)) as any);
 
     assert.equal(converted.items.length, 2);
-    assert.equal(converted.items[0].type, "number");
+    assert.equal(converted.items[0].type, 'number');
     assert.equal(converted.items[0].min, 3);
-    assert.equal(converted.items[1].type, "string");
+    assert.equal(converted.items[1].type, 'string');
 
     done();
   });
 
-  it("array - ordered", (done) => {
+  it('array - ordered', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       ordered: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         },
         {
-          type: "string"
+          type: 'string'
         }
       ]
     };
@@ -168,20 +170,20 @@ describe('Json to Joi', () => {
     const converted = (toJson(fromJson(json)) as any);
 
     assert.equal(converted.ordered.length, 2);
-    assert.equal(converted.ordered[0].type, "number");
+    assert.equal(converted.ordered[0].type, 'number');
     assert.equal(converted.ordered[0].required, true);
     assert.equal(converted.ordered[0].min, 3);
-    assert.equal(converted.ordered[1].type, "string");
+    assert.equal(converted.ordered[1].type, 'string');
 
     done();
   });
 
-  it("array - single", (done) => {
+  it('array - single', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         }
@@ -196,12 +198,12 @@ describe('Json to Joi', () => {
     done();
   });
 
-  it("array - sparse", (done) => {
+  it('array - sparse', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         }
@@ -216,12 +218,12 @@ describe('Json to Joi', () => {
     done();
   });
 
-  it("array - unique", (done) => {
+  it('array - unique', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         }
@@ -231,17 +233,17 @@ describe('Json to Joi', () => {
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, {options: {}});
+    assert.deepEqual(converted.unique, { options: {} });
 
     done();
   });
 
-  it("array - unique - options", (done) => {
+  it('array - unique - options', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         }
@@ -255,47 +257,47 @@ describe('Json to Joi', () => {
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, {options: {ignoreUndefined: true}});
+    assert.deepEqual(converted.unique, { options: { ignoreUndefined: true } });
 
     done();
   });
 
-  it("array - unique - string", (done) => {
+  it('array - unique - string', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         }
       ],
-      unique: "customer.id"
+      unique: 'customer.id'
     };
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, {comparator: "customer.id", options: {}});
+    assert.deepEqual(converted.unique, { comparator: 'customer.id', options: {} });
 
     done();
   });
 
-  it("array - unique - function", (done) => {
+  it('array - unique - function', (done) => {
     let json: ArraySchema = {
-      type: "array",
+      type: 'array',
       items: [
         {
-          type: "number",
+          type: 'number',
           min: 3,
           required: true
         }
       ],
-      unique: "(a, b) => a.property === b.property"
+      unique: '(a, b) => a.property === b.property'
     };
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, {comparator: "(a, b) => a.property === b.property", options: {}});
+    assert.deepEqual(converted.unique, { comparator: '(a, b) => a.property === b.property', options: {} });
 
     done();
   });

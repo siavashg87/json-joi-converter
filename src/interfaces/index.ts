@@ -1,6 +1,5 @@
 import {
   ArraySortOptions,
-  ArrayUniqueOptions,
   Base64Options,
   DataUriOptions,
   DomainOptions,
@@ -21,9 +20,9 @@ import {
   WhenSchemaOptions,
   Context,
   ReferenceOptions
-} from "joi";
+} from 'joi';
 
-export interface Reference extends Omit<ReferenceOptions, "adjust"> {
+export interface Reference extends Omit<ReferenceOptions, 'adjust'> {
   $ref: string;
   adjust?: string; // str to function
 }
@@ -42,16 +41,16 @@ type SchemaMap<TSchema = any> = {
 type ArrayMinOneItem<T> = { 0: T } & Array<T>;
 
 export type Schema = AnySchema
-  | ArraySchema
-  | AlternativesSchema
-  | BinarySchema
-  | BooleanSchema
-  | DateSchema
-  | NumberSchema
-  | ObjectSchema
-  | StringSchema
-  | LinkSchema
-  | SymbolSchema;
+| ArraySchema
+| AlternativesSchema
+| BinarySchema
+| BooleanSchema
+| DateSchema
+| NumberSchema
+| ObjectSchema
+| StringSchema
+| LinkSchema
+| SymbolSchema;
 
 export type TypeWhen = ({
   reference: string | Reference;
@@ -66,7 +65,7 @@ export type TypeWhen = ({
 } & WhenSchemaOptions);
 
 export interface AnySchema<T = any> {
-  type: "any" | "number" | "string" | "boolean" | "binary" | "link" | "alternatives" | "object" | "array" | "symbol" | "date";
+  type: 'any' | 'number' | 'string' | 'boolean' | 'binary' | 'link' | 'alternatives' | 'object' | 'array' | 'symbol' | 'date';
   allow?: T | ArrayMinOneItem<T>;
   alter?: Record<string, Schema>;
   //bind?: boolean;
@@ -134,11 +133,10 @@ export interface AnySchema<T = any> {
   warning?: {
     code: string;
     context: Context;
-  }
+  };
   when?: TypeWhen | ArrayMinOneItem<TypeWhen>;
   precision?: number;
 }
-
 
 export interface BooleanSchema extends AnySchema<boolean> {
   default?: boolean;
@@ -150,7 +148,7 @@ export interface BooleanSchema extends AnySchema<boolean> {
 type NumberLimit = number | Reference | {limit: number | Reference};
 
 export interface NumberSchema extends AnySchema<number> {
-  type: "number";
+  type: 'number';
   greater?: NumberLimit;
   integer?: boolean;
   less?: NumberLimit;
@@ -161,7 +159,7 @@ export interface NumberSchema extends AnySchema<number> {
   port?: boolean;
   positive?: boolean;
   precision?: number;
-  sign?: "positive" | "negative";
+  sign?: 'positive' | 'negative';
   unsafe?: any;
 }
 
@@ -177,14 +175,14 @@ export type TypeReplace = {
 
 type StringRegex = string | JsonRegex | {
   pattern: JsonRegex;
-  options?: string | StringRegexOptions
+  options?: string | StringRegexOptions;
 };
 
 export interface StringSchema extends AnySchema<string> {
-  type: "string",
+  type: 'string';
   alphanum?: boolean;
   base64?: boolean | Base64Options; // check
-  case?: "upper" | "lower";
+  case?: 'upper' | 'lower';
   creditCard?: boolean; // check
   dataUri?: boolean | DataUriOptions; // check
   domain?: boolean | DomainOptions; // check
@@ -208,7 +206,7 @@ export interface StringSchema extends AnySchema<string> {
   trim?: any;
   truncate?: boolean;
   uppercase?: boolean;
-  uri?: boolean | (Omit<UriOptions, "scheme"> & {scheme?: string | JsonRegex});
+  uri?: boolean | (Omit<UriOptions, 'scheme'> & {scheme?: string | JsonRegex});
   uuid?: boolean | GuidOptions;
 }
 
@@ -230,7 +228,7 @@ export type TypeAssert = [string | Reference, any, string?] | {
 };
 
 export interface ObjectSchema<T = any> extends AnySchema<T> {
-  type: "object",
+  type: 'object';
   properties: {[key: string]: Schema};
   and?: Peers;
   append?: {[key: string]: Schema};
@@ -263,7 +261,7 @@ export interface ObjectSchema<T = any> extends AnySchema<T> {
 }
 
 export interface ArraySchema<T = any> extends AnySchema<T> {
-  type: "array",
+  type: 'array';
   has?: SchemaLike;
   items?: Schema | ArrayMinOneItem<Schema>;
   length?: number | Reference;
@@ -282,7 +280,7 @@ export interface ArraySchema<T = any> extends AnySchema<T> {
 }
 
 export interface BinarySchema extends AnySchema {
-  type: "binary",
+  type: 'binary';
   encoding?: string;
   min?: number | Reference;
   max?: number | Reference;
@@ -292,7 +290,7 @@ export interface BinarySchema extends AnySchema {
 type DateArg = 'now' | Date | number | string | Reference;
 
 export interface DateSchema extends AnySchema {
-  type: "date",
+  type: 'date';
   greater?: DateArg;
   iso?: boolean;
   less?: DateArg;
@@ -302,19 +300,19 @@ export interface DateSchema extends AnySchema {
 }
 
 export interface AlternativesSchema extends AnySchema {
-  type: "alternatives",
+  type: 'alternatives';
   conditional?: TypeWhen | ArrayMinOneItem<TypeWhen>;
   match?: 'any' | 'all' | 'one';
   try?: ArrayMinOneItem<SchemaLike>;
 }
 
 export interface LinkSchema extends AnySchema {
-  type: "link",
+  type: 'link';
   concat?: Schema;
   ref?: string;
 }
 
 export interface SymbolSchema extends AnySchema {
-  type: "symbol",
+  type: 'symbol';
   map?: Iterable<[string | number | boolean | symbol, symbol]> | { [key: string]: symbol };
 }
