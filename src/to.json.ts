@@ -108,7 +108,7 @@ export function toJson(joi: any): Schema {
             value = value.base;
 
           if (isObject(value) && 'regex' in value)
-            value.regex = regexToString(value.regex);
+            value.regex = regexToString(rule.args.regex);
         }
 
         json[method] = value;
