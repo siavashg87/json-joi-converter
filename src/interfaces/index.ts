@@ -268,6 +268,7 @@ export interface ArraySchema<T = any> extends AnySchema<T> {
   min?: number;
   max?: number;
   ordered?: ArrayMinOneItem<SchemaLike>;
+  try?: ArrayMinOneItem<SchemaLike>;
   single?: any;
   sort?: boolean | ArraySortOptions;
   sparse?: any;

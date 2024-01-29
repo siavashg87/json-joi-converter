@@ -176,12 +176,12 @@ export function fromJson(_json: Schema): Joi.Schema {
     case 'not':
     case 'valid':
     case 'invalid':
-    case 'try':
       validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((v: any) => jsonToRef(v)));
       break;
 
     case 'items':
     case 'ordered':
+    case 'try':
       validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((j: Schema) => fromJson(j)));
       break;
 

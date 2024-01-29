@@ -169,11 +169,11 @@ function fromJson(_json) {
             case 'not':
             case 'valid':
             case 'invalid':
-            case 'try':
                 validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (v) { return utils_1.jsonToRef(v); }));
                 break;
             case 'items':
             case 'ordered':
+            case 'try':
                 validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (j) { return fromJson(j); }));
                 break;
             // peers

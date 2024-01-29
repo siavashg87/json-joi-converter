@@ -28,7 +28,7 @@ function toJson(joi) {
         type: joi.type
     };
     Object.keys(joi).forEach(function (key) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         var value = joi[key];
         switch (key) {
             case '_preferences':
@@ -56,7 +56,7 @@ function toJson(joi) {
                 break;
             case '_flags':
                 if (joi[key]) {
-                    ['default', 'single', 'sparse', 'label'].forEach(function (_fk) {
+                    ['default', 'single', 'sparse', 'label', 'match'].forEach(function (_fk) {
                         if (_fk in joi[key])
                             json[_fk] = joi[key][_fk];
                     });
@@ -126,7 +126,10 @@ function toJson(joi) {
                 if (Array.isArray((_c = joi[key]) === null || _c === void 0 ? void 0 : _c.ordered) && joi[key].ordered.length) {
                     json.ordered = joi[key].ordered.map(function (it) { return toJson(it); });
                 }
-                if (Array.isArray((_d = joi[key]) === null || _d === void 0 ? void 0 : _d.replacements)) {
+                if (Array.isArray((_d = joi[key]) === null || _d === void 0 ? void 0 : _d.matches) && joi[key].matches.length) {
+                    json.try = joi[key].matches.map(function (it) { return toJson(it.schema); });
+                }
+                if (Array.isArray((_e = joi[key]) === null || _e === void 0 ? void 0 : _e.replacements)) {
                     // @ts-ignore
                     json.replace = joi[key].replacements.map(function (r) {
                         return {
@@ -135,11 +138,11 @@ function toJson(joi) {
                         };
                     });
                 }
-                if (Array.isArray((_e = joi[key]) === null || _e === void 0 ? void 0 : _e.metas) && joi[key].metas.length) {
+                if (Array.isArray((_f = joi[key]) === null || _f === void 0 ? void 0 : _f.metas) && joi[key].metas.length) {
                     json.meta = {};
                     joi[key].metas.forEach(function (meta) { return json.meta = __assign(__assign({}, json.meta), meta); });
                 }
-                if (Array.isArray((_f = joi[key]) === null || _f === void 0 ? void 0 : _f.whens) && !!joi[key].whens.length) {
+                if (Array.isArray((_g = joi[key]) === null || _g === void 0 ? void 0 : _g.whens) && !!joi[key].whens.length) {
                     json.when = joi[key].whens.map(function (when) {
                         var op = {};
                         if (when.ref) {

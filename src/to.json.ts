@@ -44,7 +44,7 @@ export function toJson(joi: any): Schema {
       break;
     case '_flags':
       if (joi[key]) {
-        ['default', 'single', 'sparse', 'label'].forEach((_fk: string) => {
+        ['default', 'single', 'sparse', 'label', 'match'].forEach((_fk: string) => {
           if (_fk in joi[key])
             json[_fk] = joi[key][_fk];
         });
@@ -124,6 +124,10 @@ export function toJson(joi: any): Schema {
 
       if (Array.isArray(joi[key]?.ordered) && joi[key].ordered.length) {
         (json as ArraySchema).ordered = joi[key].ordered.map((it: Joi.Schema) => toJson(it));
+      }
+
+      if (Array.isArray(joi[key]?.matches) && joi[key].matches.length) {
+        (json as ArraySchema).try = joi[key].matches.map((it: { schema: Joi.Schema }) => toJson(it.schema));
       }
 
       if (Array.isArray(joi[key]?.replacements)) {
