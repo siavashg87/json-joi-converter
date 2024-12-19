@@ -1,6 +1,6 @@
 {
   "name": "json-joi-converter",
-  "version": "17.12.1",
+  "version": "17.13.4",
   "description": "Converts json from and to Joi objects.",
   "license": "MIT",
   "devDependencies": {
@@ -26,7 +26,7 @@
     "lint-fix": "eslint \"src/**/*.ts\" --fix"
   },
   "peerDependencies": {
-    "joi": "^17.11.0"
+    "joi": "^17.13.3"
   },
   "repository": {
     "type": "git",
