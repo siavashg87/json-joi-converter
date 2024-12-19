@@ -1,4 +1,4 @@
-import * as Joi from 'joi';
+import * as joi from 'joi';
 import {
   Schema,
   AnySchema,
@@ -14,8 +14,8 @@ import {
   SymbolSchema
 } from './interfaces';
 
-export * from './from.json';
-export * from './to.json';
+import { fromJson } from './from.json';
+import { toJson } from './to.json';
 
 export {
   Schema,
@@ -29,6 +29,9 @@ export {
   DateSchema,
   NumberSchema,
   LinkSchema,
-  SymbolSchema
+  SymbolSchema,
+  joi,
+  fromJson,
+  toJson
 };
-export default Joi;
+export default joi;

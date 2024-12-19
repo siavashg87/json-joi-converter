@@ -1,16 +1,10 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Joi = require("joi");
-__exportStar(require("./from.json"), exports);
-__exportStar(require("./to.json"), exports);
-exports.default = Joi;
+exports.toJson = exports.fromJson = exports.joi = void 0;
+var joi = require("joi");
+exports.joi = joi;
+var from_json_1 = require("./from.json");
+Object.defineProperty(exports, "fromJson", { enumerable: true, get: function () { return from_json_1.fromJson; } });
+var to_json_1 = require("./to.json");
+Object.defineProperty(exports, "toJson", { enumerable: true, get: function () { return to_json_1.toJson; } });
+exports.default = joi;

@@ -23,7 +23,8 @@
   "scripts": {
     "build": "rm -rf dist/* && rm -rf dts/* && tsc",
     "test": "ts-mocha test/*.spec.ts",
-    "lint-fix": "eslint \"src/**/*.ts\" --fix"
+    "lint-fix": "eslint \"src/**/*.ts\" --fix",
+    "browserify": "browserify dist/index.js -o browser/json-joi-converter.js --standalone=JsonJoi"
   },
   "peerDependencies": {
     "joi": "^17.13.3"
