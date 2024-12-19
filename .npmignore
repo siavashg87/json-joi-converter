@@ -1,3 +1,5 @@
 src
+dist/test
+dist/interfaces
 tsconfig.json
 .eslintrc.js

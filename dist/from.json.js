@@ -133,6 +133,8 @@ function fromJson(_json) {
                         if (utils_1.isObject(arg) && !('$ref' in arg)) {
                             if ('limit' in arg)
                                 arg.limit = utils_1.jsonToRef(arg.limit);
+                            else if ('date' in arg)
+                                arg.date = utils_1.jsonToRef(arg.date);
                             else if ('base' in arg)
                                 arg.base = utils_1.jsonToRef(arg.base);
                         }

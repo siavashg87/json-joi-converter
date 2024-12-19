@@ -109,6 +109,8 @@ function toJson(joi) {
                     if (utils_1.isObject(value)) {
                         if (utils_1.isObject(value) && 'limit' in value && Object.keys(value).length === 1)
                             value = value.limit;
+                        if (utils_1.isObject(value) && 'date' in value && Object.keys(value).length === 1)
+                            value = value.date;
                         if (utils_1.isObject(value) && 'base' in value && Object.keys(value).length === 1)
                             value = value.base;
                         if (utils_1.isObject(value) && 'regex' in value)

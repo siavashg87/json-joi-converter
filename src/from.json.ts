@@ -133,6 +133,8 @@ export function fromJson(_json: Schema): Joi.Schema {
         if (isObject(arg) && !('$ref' in arg)) {
           if ('limit' in arg)
             arg.limit = jsonToRef(arg.limit);
+          else if ('date' in arg)
+            arg.date = jsonToRef(arg.date);
           else if ('base' in arg)
             arg.base = jsonToRef(arg.base);
         }

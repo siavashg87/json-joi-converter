@@ -104,6 +104,9 @@ export function toJson(joi: any): Schema {
           if (isObject(value) && 'limit' in value && Object.keys(value).length === 1)
             value = value.limit;
 
+          if (isObject(value) && 'date' in value && Object.keys(value).length === 1)
+            value = value.date;
+
           if (isObject(value) && 'base' in value && Object.keys(value).length === 1)
             value = value.base;
 
