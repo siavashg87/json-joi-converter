@@ -30,7 +30,6 @@ describe('Joi to Json - Array', function () {
         assert.strictEqual(result_success.error, undefined);
         assert.strictEqual(result_success2.error, undefined);
         assert.strictEqual(!!result_fail.error, true);
-        console.log(JSON.stringify(json_schema, null, 2));
         done();
     });
 });

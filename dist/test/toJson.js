@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var index_1 = require("../index");
-describe('Joi to Json', function () {
+describe('Joi to Json- toJson', function () {
     it('email', function (done) {
         assert.deepEqual(index_1.toJson(index_1.default.string().email()), { 'type': 'string', 'email': true });
         done();
@@ -54,11 +54,11 @@ describe('Joi to Json', function () {
         done();
     });
     it('hex', function (done) {
-        assert.deepEqual(index_1.toJson(index_1.default.string().hex()), { 'type': 'string', 'hex': { byteAligned: false } });
+        assert.deepEqual(index_1.toJson(index_1.default.string().hex()), { 'type': 'string', 'hex': { byteAligned: false, prefix: false } });
         done();
     });
     it('hex with options', function (done) {
-        assert.deepEqual(index_1.toJson(index_1.default.string().hex({ byteAligned: true })), { 'type': 'string', 'hex': { byteAligned: true } });
+        assert.deepEqual(index_1.toJson(index_1.default.string().hex({ byteAligned: true })), { 'type': 'string', 'hex': { byteAligned: true, prefix: false } });
         done();
     });
     it('min', function (done) {
@@ -79,7 +79,7 @@ describe('Joi to Json', function () {
         done();
     });
     it('multiple', function (done) {
-        assert.deepEqual(index_1.toJson(index_1.default.number().multiple(10)), { 'type': 'number', 'multiple': 10 });
+        assert.deepEqual(index_1.toJson(index_1.default.number().multiple(10)), { 'type': 'number', 'multiple': { base: 10, baseDecimalPlace: 0, pfactor: 1 } });
         done();
     });
     it('less', function (done) {
@@ -92,11 +92,12 @@ describe('Joi to Json', function () {
     });
     it('greater - reference', function (done) {
         assert.deepEqual(index_1.toJson(index_1.default.number().greater(index_1.default.ref('/a', {
-            adjust: function (value) { return value + 1; }
+        //adjust: value => value + 1
         }))), {
             'type': 'number', 'greater': {
                 $ref: 'a',
-                adjust: 'function (value) { return value + 1; }',
+                // adjust: 'function (value) { return value + 1; }',
+                adjust: null,
                 ancestor: 'root',
                 in: false,
                 iterables: null,

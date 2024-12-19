@@ -4,11 +4,11 @@ var assert = require("assert");
 var index_1 = require("../index");
 describe('Joi to Json', function () {
     it('regex', function (done) {
-        assert.deepEqual(index_1.toJson(index_1.default.string().regex(new RegExp(/^[\d]{4}-[\d]{2}-[\d]{2}$/))), {
+        assert.deepEqual(index_1.toJson(index_1.default.string().regex(new RegExp(/(?=.*[A-Z])(?=.*[\.!@#$&*])(?=.*[0-9])(?=.*[a-z])./))), {
             pattern: {
                 options: {},
                 regex: {
-                    '$regex': '/(?=.*[A-Z])(?=.*[\\.!@#$&*])(?=.*[0-9])(?=.*[a-z])./'
+                    '$regex': '(?=.*[A-Z])(?=.*[\\.!@#$&*])(?=.*[0-9])(?=.*[a-z]).'
                 }
             },
             type: 'string'

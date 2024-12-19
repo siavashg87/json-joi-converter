@@ -5,12 +5,12 @@ describe('Joi to Json', () => {
 
   it('regex', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().regex(new RegExp(/^[\d]{4}-[\d]{2}-[\d]{2}$/))),
+      toJson(JsonJoi.string().regex(new RegExp(/(?=.*[A-Z])(?=.*[\.!@#$&*])(?=.*[0-9])(?=.*[a-z])./))),
       {
         pattern: {
           options: {},
           regex: {
-            '$regex': '/(?=.*[A-Z])(?=.*[\\.!@#$&*])(?=.*[0-9])(?=.*[a-z])./'
+            '$regex': '(?=.*[A-Z])(?=.*[\\.!@#$&*])(?=.*[0-9])(?=.*[a-z]).'
           }
         },
         type: 'string'

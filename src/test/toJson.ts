@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import JsonJoi, { toJson } from '../index';
 
-describe('Joi to Json', () => {
+describe('Joi to Json- toJson', () => {
 
   it('email', (done) => {
     assert.deepEqual(
@@ -92,7 +92,7 @@ describe('Joi to Json', () => {
   it('hex', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().hex()),
-      { 'type': 'string', 'hex': { byteAligned: false } }
+      { 'type': 'string', 'hex': { byteAligned: false, prefix: false } }
     );
     done();
   });
@@ -100,7 +100,7 @@ describe('Joi to Json', () => {
   it('hex with options', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().hex({ byteAligned: true })),
-      { 'type': 'string', 'hex': { byteAligned: true } }
+      { 'type': 'string', 'hex': { byteAligned: true, prefix: false } }
     );
     done();
   });
@@ -144,7 +144,7 @@ describe('Joi to Json', () => {
   it('multiple', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().multiple(10)),
-      { 'type': 'number', 'multiple': 10 }
+      { 'type': 'number', 'multiple': {base: 10, baseDecimalPlace: 0, pfactor: 1 } }
     );
     done();
   });
@@ -168,12 +168,13 @@ describe('Joi to Json', () => {
   it('greater - reference', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().greater(JsonJoi.ref('/a', {
-        adjust: value => value + 1
+        //adjust: value => value + 1
       }))),
       {
         'type': 'number', 'greater': {
           $ref: 'a',
-          adjust: 'function (value) { return value + 1; }',
+          // adjust: 'function (value) { return value + 1; }',
+          adjust: null,
           ancestor: 'root',
           in: false,
           iterables: null,

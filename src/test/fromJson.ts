@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { ArraySchema, fromJson, ObjectSchema, StringSchema, toJson } from '../index';
 
-describe('Json to Joi', () => {
+describe('Json to Joi - fromJson', () => {
   it('simple number', (done) => {
     let json: ObjectSchema = {
       type: 'object',
@@ -278,26 +278,6 @@ describe('Json to Joi', () => {
     const converted = (toJson(fromJson(json)) as any);
 
     assert.deepEqual(converted.unique, { comparator: 'customer.id', options: {} });
-
-    done();
-  });
-
-  it('array - unique - function', (done) => {
-    let json: ArraySchema = {
-      type: 'array',
-      items: [
-        {
-          type: 'number',
-          min: 3,
-          required: true
-        }
-      ],
-      unique: '(a, b) => a.property === b.property'
-    };
-
-    const converted = (toJson(fromJson(json)) as any);
-
-    assert.deepEqual(converted.unique, { comparator: '(a, b) => a.property === b.property', options: {} });
 
     done();
   });

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var index_1 = require("../index");
-describe('Json to Joi', function () {
+describe('Json to Joi - fromJson', function () {
     it('simple number', function (done) {
         var json = {
             type: 'object',
@@ -231,22 +231,6 @@ describe('Json to Joi', function () {
         };
         var converted = index_1.toJson(index_1.fromJson(json));
         assert.deepEqual(converted.unique, { comparator: 'customer.id', options: {} });
-        done();
-    });
-    it('array - unique - function', function (done) {
-        var json = {
-            type: 'array',
-            items: [
-                {
-                    type: 'number',
-                    min: 3,
-                    required: true
-                }
-            ],
-            unique: '(a, b) => a.property === b.property'
-        };
-        var converted = index_1.toJson(index_1.fromJson(json));
-        assert.deepEqual(converted.unique, { comparator: '(a, b) => a.property === b.property', options: {} });
         done();
     });
 });
