@@ -1,6 +1,7 @@
 import { ArraySchema, ObjectSchema, Schema, StringSchema, TypeWhen } from './interfaces';
 import { cloneDeep, extractRef, isObject, regexToString } from './utils';
 import * as Joi from 'joi';
+import {BooleanSchema} from "../dts";
 
 export function toJson(joi: any): Schema {
   if (!isObject(joi)) {
@@ -13,6 +14,8 @@ export function toJson(joi: any): Schema {
 
   Object.keys(joi).forEach((key: string) => {
     const value = joi[key];
+
+    //console.log(value, key)
 
     switch (key) {
     case '_preferences':
@@ -131,6 +134,14 @@ export function toJson(joi: any): Schema {
 
       if (Array.isArray(joi[key]?.matches) && joi[key].matches.length) {
         (json as ArraySchema).try = joi[key].matches.map((it: { schema: Joi.Schema }) => toJson(it.schema));
+      }
+
+      if (joi[key].truthy?._values?.size) {
+        (json as BooleanSchema).truthy = Array.from(joi[key].truthy._values).map(v => toJson(v));
+      }
+
+      if (joi[key].falsy?._values?.size) {
+        (json as BooleanSchema).falsy = Array.from(joi[key].falsy._values).map(v => toJson(v));
       }
 
       if (Array.isArray(joi[key]?.replacements)) {

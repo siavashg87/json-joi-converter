@@ -28,8 +28,9 @@ function toJson(joi) {
         type: joi.type
     };
     Object.keys(joi).forEach(function (key) {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         var value = joi[key];
+        //console.log(value, key)
         switch (key) {
             case '_preferences':
                 if (((_a = joi._preferences) === null || _a === void 0 ? void 0 : _a.convert) === false)
@@ -131,7 +132,13 @@ function toJson(joi) {
                 if (Array.isArray((_d = joi[key]) === null || _d === void 0 ? void 0 : _d.matches) && joi[key].matches.length) {
                     json.try = joi[key].matches.map(function (it) { return toJson(it.schema); });
                 }
-                if (Array.isArray((_e = joi[key]) === null || _e === void 0 ? void 0 : _e.replacements)) {
+                if ((_f = (_e = joi[key].truthy) === null || _e === void 0 ? void 0 : _e._values) === null || _f === void 0 ? void 0 : _f.size) {
+                    json.truthy = Array.from(joi[key].truthy._values).map(function (v) { return toJson(v); });
+                }
+                if ((_h = (_g = joi[key].falsy) === null || _g === void 0 ? void 0 : _g._values) === null || _h === void 0 ? void 0 : _h.size) {
+                    json.falsy = Array.from(joi[key].falsy._values).map(function (v) { return toJson(v); });
+                }
+                if (Array.isArray((_j = joi[key]) === null || _j === void 0 ? void 0 : _j.replacements)) {
                     // @ts-ignore
                     json.replace = joi[key].replacements.map(function (r) {
                         return {
@@ -140,11 +147,11 @@ function toJson(joi) {
                         };
                     });
                 }
-                if (Array.isArray((_f = joi[key]) === null || _f === void 0 ? void 0 : _f.metas) && joi[key].metas.length) {
+                if (Array.isArray((_k = joi[key]) === null || _k === void 0 ? void 0 : _k.metas) && joi[key].metas.length) {
                     json.meta = {};
                     joi[key].metas.forEach(function (meta) { return json.meta = __assign(__assign({}, json.meta), meta); });
                 }
-                if (Array.isArray((_g = joi[key]) === null || _g === void 0 ? void 0 : _g.whens) && !!joi[key].whens.length) {
+                if (Array.isArray((_l = joi[key]) === null || _l === void 0 ? void 0 : _l.whens) && !!joi[key].whens.length) {
                     json.when = joi[key].whens.map(function (when) {
                         var op = {};
                         if (when.ref) {
