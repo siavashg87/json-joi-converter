@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { ArraySchema, fromJson, ObjectSchema, StringSchema, toJson } from '../index';
+import { ArraySchema, fromJson, ObjectSchema, StringSchema, toJson } from '../src';
 
 describe('Json to Joi - fromJson', () => {
   it('simple number', (done) => {

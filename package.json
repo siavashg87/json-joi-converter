@@ -4,7 +4,6 @@
   "description": "Converts json from and to Joi objects.",
   "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^7.0.2",
     "@types/node": "14.14.10",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
@@ -13,7 +12,7 @@
     "eslint-plugin-tslint": "^3.1.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "joi": "^17.13.3",
-    "mocha": "^7.2.0",
+    "ts-mocha": "^10.0.0",
     "typescript": "^3.9.3"
   },
   "engines": {
@@ -23,7 +22,7 @@
   "typings": "./dts/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/* && rm -rf dts/* && tsc",
-    "test": "mocha ./dist/test",
+    "test": "ts-mocha test/*.spec.ts",
     "lint-fix": "eslint \"src/**/*.ts\" --fix"
   },
   "peerDependencies": {

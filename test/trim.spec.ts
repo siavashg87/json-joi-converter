@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { fromJson, toJson } from '../index';
+import JsonJoi, { fromJson, toJson } from '../src';
 
 describe('Joi to Json - trim', () => {
 
