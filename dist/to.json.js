@@ -30,7 +30,6 @@ function toJson(joi) {
     Object.keys(joi).forEach(function (key) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         var value = joi[key];
-        //console.log(value, key)
         switch (key) {
             case '_preferences':
                 if (((_a = joi._preferences) === null || _a === void 0 ? void 0 : _a.convert) === false)

@@ -15,8 +15,6 @@ export function toJson(joi: any): Schema {
   Object.keys(joi).forEach((key: string) => {
     const value = joi[key];
 
-    //console.log(value, key)
-
     switch (key) {
     case '_preferences':
       if (joi._preferences?.convert === false)

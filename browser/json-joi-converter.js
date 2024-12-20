@@ -497,9 +497,6 @@ function toJson(joi) {
                     });
                 }
         }
-        console.log(json);
-        if (key === 'options' && utils_1.isObject(json[key]) && !Object.keys(json[key]).length)
-            return undefined;
     });
     return json;
 }

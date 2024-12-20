@@ -4,13 +4,27 @@
 [![Node version required](https://img.shields.io/node/v/json-joi-converter.svg)](https://www.npmjs.com/package/json-joi-converter)
 [![Latest Stable Version](https://img.shields.io/npm/v/json-joi-converter.svg)](https://www.npmjs.com/package/json-joi-converter)
 
-Json-Joi is a powerfull TypeScript module that builds on top of [Joi](https://www.npmjs.com/package/joi) module. Converts Joi objects to json and vice versa, makes Joi objects from json.
+# json-Joi-converter
 
-From Joi description: "The most powerful schema description language and data validator for JavaScript."
+**json-Joi-converter** is a robust TypeScript module built on top of the popular [Joi](https://www.npmjs.com/package/joi) library. This package seamlessly converts Joi schemas to JSON and back, enabling effortless creation of Joi schemas to and from JSON.
+
+## Why Choose json-Joi-converter?
+
+Do you need to share the same Joi schema between your backend and frontend? This module makes it simple!
+- Generate a JSON representation of your Joi schema on the backend.
+- Use that JSON to recreate the Joi schema on the frontend, ensuring consistent validation across your application.
+
+## About Joi
+
+Joi is known as "the most powerful schema description language and data validator for JavaScript." json-Joi-converter extends its capabilities to make schema sharing and reuse even more efficient.
+
 
 See [Joi API](https://joi.dev/api/?v=17.2.1) for documentation and api.
 
-Json-Joi supports almost entire Joi API!
+## Try demo
+
+https://siavashg.com/json-joi-demo/
+
 
 ## Installation
 
