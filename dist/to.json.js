@@ -50,9 +50,9 @@ function toJson(joi) {
                 if (value) {
                     json[schemaKey] = [];
                     if (value._values)
-                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._values));
+                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._values)).map(function (v) { return utils_1.extractRef(v); });
                     if (value._refs)
-                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._refs));
+                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._refs)).map(function (v) { return utils_1.extractRef(v); });
                 }
                 break;
             case '_flags':

@@ -172,13 +172,7 @@ describe('Joi to Json- toJson', () => {
       }))),
       {
         'type': 'number', 'greater': {
-          $ref: 'a',
-          // adjust: 'function (value) { return value + 1; }',
-          adjust: null,
-          ancestor: 'root',
-          in: false,
-          iterables: null,
-          map: null
+          $ref: 'a'
         }
       }
     );

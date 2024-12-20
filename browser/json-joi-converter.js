@@ -354,9 +354,9 @@ function toJson(joi) {
                 if (value) {
                     json[schemaKey] = [];
                     if (value._values)
-                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._values));
+                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._values)).map(function (v) { return utils_1.extractRef(v); });
                     if (value._refs)
-                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._refs));
+                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._refs)).map(function (v) { return utils_1.extractRef(v); });
                 }
                 break;
             case '_flags':
@@ -497,6 +497,9 @@ function toJson(joi) {
                     });
                 }
         }
+        console.log(json);
+        if (key === 'options' && utils_1.isObject(json[key]) && !Object.keys(json[key]).length)
+            return undefined;
     });
     return json;
 }
@@ -523,8 +526,8 @@ function extractRef(obj) {
     var ref = {
         $ref: obj.key,
     };
-    ['map', 'prefix', 'ancestor', 'in', 'iterables', 'adjust'].forEach(function (k) {
-        if (obj.hasOwnProperty(k))
+    ['map', 'prefix', 'in', 'iterables', 'adjust'].forEach(function (k) {
+        if (obj[k])
             ref[k] = k === 'adjust' && is_function_1.isFunction(obj[k]) ? obj[k].toString() : obj[k];
     });
     return ref;

@@ -38,10 +38,10 @@ export function toJson(joi: any): Schema {
       if (value) {
         json[schemaKey] = [];
         if (value._values)
-          json[schemaKey] = [...json[schemaKey], ...Array.from(value._values)];
+          json[schemaKey] = [...json[schemaKey], ...Array.from(value._values)].map(v => extractRef(v));
 
         if (value._refs)
-          json[schemaKey] = [...json[schemaKey], ...Array.from(value._refs)];
+          json[schemaKey] = [...json[schemaKey], ...Array.from(value._refs)].map(v => extractRef(v));
       }
 
       break;

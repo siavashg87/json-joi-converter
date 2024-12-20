@@ -15,8 +15,8 @@ export function extractRef(obj: any) {
     // iterables: obj.iterables
   };
 
-  ['map', 'prefix', 'ancestor', 'in', 'iterables', 'adjust'].forEach(k => {
-    if (obj.hasOwnProperty(k))
+  ['map', 'prefix', 'in', 'iterables', 'adjust'].forEach(k => {
+    if (obj[k])
       (ref as any)[k] = k === 'adjust' && isFunction(obj[k]) ? obj[k].toString() : obj[k];
   });
   return ref;
