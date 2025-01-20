@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { isObject } from './is.object';
+import { isObject, } from './is.object';
 
 export function jsonToRef(ref: any) {
   if (isObject(ref) && '$ref' in ref) {

@@ -1,4 +1,4 @@
-import { isObject } from './is.object';
+import { isObject, } from './is.object';
 
 export function jsonToRegex(regex: any) {
   if (regex.regex)

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { fromJson, toJson } from '../src';
+import JsonJoi, { fromJson, toJson, } from '../src';
 
 describe('Joi to Json - alternatives', () => {
 
@@ -11,14 +11,14 @@ describe('Joi to Json - alternatives', () => {
         try: [
           {
             min: 1,
-            type: 'number'
+            type: 'number',
           },
           {
             type: 'string',
-            valid: ['a']
-          }
+            valid: ['a',],
+          },
         ],
-        match: 'all'
+        match: 'all',
       }
     );
     done();

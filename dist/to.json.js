@@ -10,22 +10,24 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toJson = void 0;
+exports.toJson = toJson;
 var utils_1 = require("./utils");
 function toJson(joi) {
-    if (!utils_1.isObject(joi)) {
+    if (!(0, utils_1.isObject)(joi)) {
         return joi;
     }
     var json = {
-        type: joi.type
+        type: joi.type,
     };
     Object.keys(joi).forEach(function (key) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
@@ -49,14 +51,14 @@ function toJson(joi) {
                 if (value) {
                     json[schemaKey] = [];
                     if (value._values)
-                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._values)).map(function (v) { return utils_1.extractRef(v); });
+                        json[schemaKey] = __spreadArray(__spreadArray([], json[schemaKey], true), Array.from(value._values), true).map(function (v) { return (0, utils_1.extractRef)(v); });
                     if (value._refs)
-                        json[schemaKey] = __spreadArrays(json[schemaKey], Array.from(value._refs)).map(function (v) { return utils_1.extractRef(v); });
+                        json[schemaKey] = __spreadArray(__spreadArray([], json[schemaKey], true), Array.from(value._refs), true).map(function (v) { return (0, utils_1.extractRef)(v); });
                 }
                 break;
             case '_flags':
                 if (joi[key]) {
-                    ['default', 'single', 'sparse', 'label', 'match'].forEach(function (_fk) {
+                    ['default', 'single', 'sparse', 'label', 'match',].forEach(function (_fk) {
                         if (_fk in joi[key])
                             json[_fk] = joi[key][_fk];
                     });
@@ -71,11 +73,11 @@ function toJson(joi) {
                     if (rule.method === 'items')
                         return;
                     var method = rule.method;
-                    var optionsOnly = ['guid', 'uuid', 'email', 'hex', 'hostname', 'ip', 'base64', 'dataUri', 'domain', 'uri'];
-                    var value = utils_1.cloneDeep(optionsOnly.includes(method)
+                    var optionsOnly = ['guid', 'uuid', 'email', 'hex', 'hostname', 'ip', 'base64', 'dataUri', 'domain', 'uri',];
+                    var value = (0, utils_1.cloneDeep)(optionsOnly.includes(method)
                         ? ((Object.keys(((_a = rule.args) === null || _a === void 0 ? void 0 : _a.options) || {}).length) ? rule.args.options : true)
                         : (Object.keys(rule.args || {}).length) ? rule.args : true);
-                    if (['length', 'compare'].includes(method))
+                    if (['length', 'compare',].includes(method))
                         switch (rule.operator) {
                             case '>=':
                                 method = 'min';
@@ -105,16 +107,16 @@ function toJson(joi) {
                     if (method === 'trim')
                         value = true;
                     if (value === null || value === void 0 ? void 0 : value.limit)
-                        value.limit = utils_1.extractRef(value === null || value === void 0 ? void 0 : value.limit);
-                    if (utils_1.isObject(value)) {
-                        if (utils_1.isObject(value) && 'limit' in value && Object.keys(value).length === 1)
+                        value.limit = (0, utils_1.extractRef)(value === null || value === void 0 ? void 0 : value.limit);
+                    if ((0, utils_1.isObject)(value)) {
+                        if ((0, utils_1.isObject)(value) && 'limit' in value && Object.keys(value).length === 1)
                             value = value.limit;
-                        if (utils_1.isObject(value) && 'date' in value && Object.keys(value).length === 1)
+                        if ((0, utils_1.isObject)(value) && 'date' in value && Object.keys(value).length === 1)
                             value = value.date;
-                        if (utils_1.isObject(value) && 'base' in value && Object.keys(value).length === 1)
+                        if ((0, utils_1.isObject)(value) && 'base' in value && Object.keys(value).length === 1)
                             value = value.base;
-                        if (utils_1.isObject(value) && 'regex' in value)
-                            value.regex = utils_1.regexToString(rule.args.regex);
+                        if ((0, utils_1.isObject)(value) && 'regex' in value)
+                            value.regex = (0, utils_1.regexToString)(rule.args.regex);
                     }
                     json[method] = value;
                 });
@@ -132,17 +134,19 @@ function toJson(joi) {
                     json.try = joi[key].matches.map(function (it) { return toJson(it.schema); });
                 }
                 if ((_f = (_e = joi[key].truthy) === null || _e === void 0 ? void 0 : _e._values) === null || _f === void 0 ? void 0 : _f.size) {
+                    // @ts-ignore
                     json.truthy = Array.from(joi[key].truthy._values).map(function (v) { return toJson(v); });
                 }
                 if ((_h = (_g = joi[key].falsy) === null || _g === void 0 ? void 0 : _g._values) === null || _h === void 0 ? void 0 : _h.size) {
+                    // @ts-ignore
                     json.falsy = Array.from(joi[key].falsy._values).map(function (v) { return toJson(v); });
                 }
                 if (Array.isArray((_j = joi[key]) === null || _j === void 0 ? void 0 : _j.replacements)) {
                     // @ts-ignore
                     json.replace = joi[key].replacements.map(function (r) {
                         return {
-                            find: (r.pattern instanceof RegExp) ? utils_1.regexToString(r.pattern) : r.pattern,
-                            replace: r.replacement
+                            find: (r.pattern instanceof RegExp) ? (0, utils_1.regexToString)(r.pattern) : r.pattern,
+                            replace: r.replacement,
                         };
                     });
                 }
@@ -154,7 +158,7 @@ function toJson(joi) {
                     json.when = joi[key].whens.map(function (when) {
                         var op = {};
                         if (when.ref) {
-                            op.reference = utils_1.extractRef(when.ref);
+                            op.reference = (0, utils_1.extractRef)(when.ref);
                             if ('is' in when) {
                                 op.is = toJson(when.is);
                             }
@@ -172,7 +176,7 @@ function toJson(joi) {
                         if ('switch' in when)
                             op.switch = when.switch.map(function (sw) {
                                 var op = {};
-                                op.reference = utils_1.extractRef(sw.ref);
+                                op.reference = (0, utils_1.extractRef)(sw.ref);
                                 if ('is' in sw)
                                     op.is = toJson(sw.is);
                                 if ('then' in sw)
@@ -195,4 +199,3 @@ function toJson(joi) {
     });
     return json;
 }
-exports.toJson = toJson;

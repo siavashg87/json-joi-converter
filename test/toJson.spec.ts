@@ -1,12 +1,12 @@
 import * as assert from 'assert';
-import JsonJoi, { toJson } from '../src';
+import JsonJoi, { toJson, } from '../src';
 
 describe('Joi to Json- toJson', () => {
 
   it('email', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().email()),
-      { 'type': 'string', 'email': true }
+      { 'type': 'string', 'email': true, }
     );
     done();
   });
@@ -14,12 +14,12 @@ describe('Joi to Json- toJson', () => {
   it('email with options', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().email({
-        allowUnicode: true
+        allowUnicode: true,
       })),
       {
         'type': 'string', 'email': {
-          allowUnicode: true
-        }
+          allowUnicode: true,
+        },
       }
     );
     done();
@@ -28,14 +28,14 @@ describe('Joi to Json- toJson', () => {
   it('email - min', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().email({
-        allowUnicode: true
+        allowUnicode: true,
       }).min(10)),
       {
         'type': 'string',
         'email': {
-          allowUnicode: true
+          allowUnicode: true,
         },
-        'min': 10
+        'min': 10,
       }
     );
     done();
@@ -44,15 +44,15 @@ describe('Joi to Json- toJson', () => {
   it('dataUri', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().dataUri()),
-      { 'type': 'string', 'dataUri': { paddingRequired: true } }
+      { 'type': 'string', 'dataUri': { paddingRequired: true, }, }
     );
     done();
   });
 
   it('dataUri with options', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().dataUri({ paddingRequired: false })),
-      { 'type': 'string', 'dataUri': { paddingRequired: false } }
+      toJson(JsonJoi.string().dataUri({ paddingRequired: false, })),
+      { 'type': 'string', 'dataUri': { paddingRequired: false, }, }
     );
     done();
   });
@@ -60,15 +60,15 @@ describe('Joi to Json- toJson', () => {
   it('domain', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().domain()),
-      { 'type': 'string', 'domain': true }
+      { 'type': 'string', 'domain': true, }
     );
     done();
   });
 
   it('domain with options', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().domain({ allowUnicode: true })),
-      { 'type': 'string', 'domain': { allowUnicode: true } }
+      toJson(JsonJoi.string().domain({ allowUnicode: true, })),
+      { 'type': 'string', 'domain': { allowUnicode: true, }, }
     );
     done();
   });
@@ -76,15 +76,15 @@ describe('Joi to Json- toJson', () => {
   it('guid', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().guid()),
-      { 'type': 'string', 'guid': true }
+      { 'type': 'string', 'guid': true, }
     );
     done();
   });
 
   it('guid with options', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().guid({ version: ['uuidv1', 'uuidv2'] })),
-      { 'type': 'string', 'guid': { version: ['uuidv1', 'uuidv2'] } }
+      toJson(JsonJoi.string().guid({ version: ['uuidv1', 'uuidv2',], })),
+      { 'type': 'string', 'guid': { version: ['uuidv1', 'uuidv2',], }, }
     );
     done();
   });
@@ -92,15 +92,15 @@ describe('Joi to Json- toJson', () => {
   it('hex', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().hex()),
-      { 'type': 'string', 'hex': { byteAligned: false, prefix: false } }
+      { 'type': 'string', 'hex': { byteAligned: false, prefix: false, }, }
     );
     done();
   });
 
   it('hex with options', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().hex({ byteAligned: true })),
-      { 'type': 'string', 'hex': { byteAligned: true, prefix: false } }
+      toJson(JsonJoi.string().hex({ byteAligned: true, })),
+      { 'type': 'string', 'hex': { byteAligned: true, prefix: false, }, }
     );
     done();
   });
@@ -108,11 +108,11 @@ describe('Joi to Json- toJson', () => {
   it('min', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().min(10)),
-      { 'type': 'string', 'min': 10 }
+      { 'type': 'string', 'min': 10, }
     );
     assert.deepEqual(
       toJson(JsonJoi.number().min(10)),
-      { 'type': 'number', 'min': 10 }
+      { 'type': 'number', 'min': 10, }
     );
     done();
   });
@@ -120,7 +120,7 @@ describe('Joi to Json- toJson', () => {
   it('min with options', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().min(10, 'UTF8')),
-      { 'type': 'string', 'min': { limit: 10, encoding: 'UTF8' } }
+      { 'type': 'string', 'min': { limit: 10, encoding: 'UTF8', }, }
     );
     done();
   });
@@ -128,7 +128,7 @@ describe('Joi to Json- toJson', () => {
   it('max', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().max(10)),
-      { 'type': 'string', 'max': 10 }
+      { 'type': 'string', 'max': 10, }
     );
     done();
   });
@@ -136,7 +136,7 @@ describe('Joi to Json- toJson', () => {
   it('max with options', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().max(10, 'UTF8')),
-      { 'type': 'string', 'max': { limit: 10, encoding: 'UTF8' } }
+      { 'type': 'string', 'max': { limit: 10, encoding: 'UTF8', }, }
     );
     done();
   });
@@ -144,7 +144,7 @@ describe('Joi to Json- toJson', () => {
   it('multiple', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().multiple(10)),
-      { 'type': 'number', 'multiple': {base: 10, baseDecimalPlace: 0, pfactor: 1 } }
+      { 'type': 'number', 'multiple': { base: 10, baseDecimalPlace: 0, pfactor: 1, }, }
     );
     done();
   });
@@ -152,7 +152,7 @@ describe('Joi to Json- toJson', () => {
   it('less', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().less(10)),
-      { 'type': 'number', 'less': 10 }
+      { 'type': 'number', 'less': 10, }
     );
     done();
   });
@@ -160,7 +160,7 @@ describe('Joi to Json- toJson', () => {
   it('greater', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().greater(10)),
-      { 'type': 'number', 'greater': 10 }
+      { 'type': 'number', 'greater': 10, }
     );
     done();
   });
@@ -172,8 +172,8 @@ describe('Joi to Json- toJson', () => {
       }))),
       {
         'type': 'number', 'greater': {
-          $ref: 'a'
-        }
+          $ref: 'a',
+        },
       }
     );
     done();
@@ -182,7 +182,7 @@ describe('Joi to Json- toJson', () => {
   it('precision', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().precision(10)),
-      { 'type': 'number', 'precision': 10 }
+      { 'type': 'number', 'precision': 10, }
     );
     done();
   });
@@ -190,7 +190,7 @@ describe('Joi to Json- toJson', () => {
   it('positive', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.number().positive()),
-      { 'type': 'number', 'positive': true }
+      { 'type': 'number', 'positive': true, }
     );
     done();
   });
@@ -198,7 +198,7 @@ describe('Joi to Json- toJson', () => {
   it('regex', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.string().replace(/a/gi, 'b')),
-      { 'type': 'string', 'replace': [{ find: { $regex: 'a', flags: 'gi' }, replace: 'b' }] }
+      { 'type': 'string', 'replace': [{ find: { $regex: 'a', flags: 'gi', }, replace: 'b', },], }
     );
     done();
   });
@@ -209,9 +209,9 @@ describe('Joi to Json- toJson', () => {
       {
         'type': 'string',
         'replace': [
-          { find: { $regex: 'a', flags: 'gi' }, replace: 'b' },
-          { find: { $regex: 'a', flags: 'g' }, replace: 'b' }
-        ]
+          { find: { $regex: 'a', flags: 'gi', }, replace: 'b', },
+          { find: { $regex: 'a', flags: 'g', }, replace: 'b', },
+        ],
       }
     );
     done();
@@ -222,7 +222,7 @@ describe('Joi to Json- toJson', () => {
       toJson(JsonJoi.string().allow(null)),
       {
         'type': 'string',
-        allow: [null]
+        allow: [null,],
       }
     );
     done();
@@ -233,7 +233,7 @@ describe('Joi to Json- toJson', () => {
       toJson(JsonJoi.string().valid(null)),
       {
         'type': 'string',
-        valid: [null]
+        valid: [null,],
       }
     );
     done();

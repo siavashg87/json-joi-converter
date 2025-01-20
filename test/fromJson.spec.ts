@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { ArraySchema, fromJson, ObjectSchema, StringSchema, toJson } from '../src';
+import { ArraySchema, fromJson, ObjectSchema, StringSchema, toJson, } from '../src';
 
 describe('Json to Joi - fromJson', () => {
   it('simple number', (done) => {
@@ -9,9 +9,9 @@ describe('Json to Joi - fromJson', () => {
         a: {
           type: 'number',
           min: 100,
-          max: 1000
-        }
-      }
+          max: 1000,
+        },
+      },
     };
 
     assert.deepEqual(
@@ -24,19 +24,19 @@ describe('Json to Joi - fromJson', () => {
   it('assert', (done) => {
     let json: ObjectSchema = {
       type: 'object',
-      assert: ['a', 'b', 'c'],
+      assert: ['a', 'b', 'c',],
       properties: {
         a: {
           type: 'number',
           min: 100,
-          max: 1000
-        }
-      }
+          max: 1000,
+        },
+      },
     };
 
     assert.deepEqual(
       Object.keys((toJson(fromJson(json)) as any).assert),
-      ['subject', 'schema', 'message']
+      ['subject', 'schema', 'message',]
     );
 
     done();
@@ -48,23 +48,23 @@ describe('Json to Joi - fromJson', () => {
       when: {
         reference: '/type',
         is: {
-          valid: [1, 2, true]
+          valid: [1, 2, true,],
         },
         then: {
           type: 'array',
-          min: 1
+          min: 1,
         },
         otherwise: {
           reference: '/type',
           is: 'A',
           then: {
-            length: 2
+            length: 2,
           },
           otherwise: {
-            min: 0
-          }
-        }
-      }
+            min: 0,
+          },
+        },
+      },
     });
     done();
   });
@@ -75,17 +75,17 @@ describe('Json to Joi - fromJson', () => {
       properties: {
         a: {
           type: 'string',
-          pattern: '/a/'
+          pattern: '/a/',
         },
         b: {
           type: 'string',
-          regex: { $regex: '/a/', flags: 'i' }
+          regex: { $regex: '/a/', flags: 'i', },
         },
         c: {
           type: 'string',
-          regex: { pattern: { $regex: '/a/' } }
-        }
-      }
+          regex: { pattern: { $regex: '/a/', }, },
+        },
+      },
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -101,7 +101,7 @@ describe('Json to Joi - fromJson', () => {
   it('replace', (done) => {
     let json: StringSchema = {
       type: 'string',
-      replace: { find: { $regex: 'a', flags: 'i' }, replace: 'b' }
+      replace: { find: { $regex: 'a', flags: 'i', }, replace: 'b', },
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -117,8 +117,8 @@ describe('Json to Joi - fromJson', () => {
       type: 'array',
       items: {
         type: 'number',
-        min: 3
-      }
+        min: 3,
+      },
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -134,12 +134,12 @@ describe('Json to Joi - fromJson', () => {
       items: [
         {
           type: 'number',
-          min: 3
+          min: 3,
         },
         {
-          type: 'string'
-        }
-      ]
+          type: 'string',
+        },
+      ],
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -159,12 +159,12 @@ describe('Json to Joi - fromJson', () => {
         {
           type: 'number',
           min: 3,
-          required: true
+          required: true,
         },
         {
-          type: 'string'
-        }
-      ]
+          type: 'string',
+        },
+      ],
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -185,10 +185,10 @@ describe('Json to Joi - fromJson', () => {
         {
           type: 'number',
           min: 3,
-          required: true
-        }
+          required: true,
+        },
       ],
-      single: true
+      single: true,
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -205,10 +205,10 @@ describe('Json to Joi - fromJson', () => {
         {
           type: 'number',
           min: 3,
-          required: true
-        }
+          required: true,
+        },
       ],
-      sparse: true
+      sparse: true,
     };
 
     const converted = (toJson(fromJson(json)) as any);
@@ -225,15 +225,15 @@ describe('Json to Joi - fromJson', () => {
         {
           type: 'number',
           min: 3,
-          required: true
-        }
+          required: true,
+        },
       ],
-      unique: true
+      unique: true,
     };
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, { options: {} });
+    assert.deepEqual(converted.unique, { options: {}, });
 
     done();
   });
@@ -245,19 +245,19 @@ describe('Json to Joi - fromJson', () => {
         {
           type: 'number',
           min: 3,
-          required: true
-        }
+          required: true,
+        },
       ],
       unique: {
         options: {
-          ignoreUndefined: true
-        }
-      }
+          ignoreUndefined: true,
+        },
+      },
     };
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, { options: { ignoreUndefined: true } });
+    assert.deepEqual(converted.unique, { options: { ignoreUndefined: true, }, });
 
     done();
   });
@@ -269,15 +269,15 @@ describe('Json to Joi - fromJson', () => {
         {
           type: 'number',
           min: 3,
-          required: true
-        }
+          required: true,
+        },
       ],
-      unique: 'customer.id'
+      unique: 'customer.id',
     };
 
     const converted = (toJson(fromJson(json)) as any);
 
-    assert.deepEqual(converted.unique, { comparator: 'customer.id', options: {} });
+    assert.deepEqual(converted.unique, { comparator: 'customer.id', options: {}, });
 
     done();
   });

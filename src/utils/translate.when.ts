@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
-import { fromJson } from '../index';
-import { TypeWhen } from '../interfaces';
-import { jsonToRef } from './json.to.ref';
+import { fromJson, } from '../index';
+import { TypeWhen, } from '../interfaces';
+import { jsonToRef, } from './json.to.ref';
 
 export function translateWhen(when: any, validation: Joi.Schema | null = null): Joi.Schema {
   if (!validation)

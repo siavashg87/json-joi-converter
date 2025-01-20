@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { toJson } from '../src';
+import JsonJoi, { toJson, } from '../src';
 
 describe('Joi to Json - uri', () => {
 
@@ -8,7 +8,7 @@ describe('Joi to Json - uri', () => {
       toJson(JsonJoi.string().uri()),
       {
         type: 'string',
-        uri: true
+        uri: true,
       }
     );
     done();
@@ -16,12 +16,12 @@ describe('Joi to Json - uri', () => {
 
   it('uri - scheme', (done) => {
     assert.deepEqual(
-      toJson(JsonJoi.string().uri({ scheme: ['https'] })),
+      toJson(JsonJoi.string().uri({ scheme: ['https',], })),
       {
         type: 'string',
         uri: {
-          scheme: ['https']
-        }
+          scheme: ['https',],
+        },
       }
     );
     done();

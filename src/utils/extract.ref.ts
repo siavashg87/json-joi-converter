@@ -1,6 +1,6 @@
-import { Reference } from '../interfaces';
-import { isFunction } from './is.function';
-import { isObject } from './is.object';
+import { Reference, } from '../interfaces';
+import { isFunction, } from './is.function';
+import { isObject, } from './is.object';
 
 export function extractRef(obj: any) {
   if (!isObject(obj) || !obj.hasOwnProperty('key'))
@@ -15,7 +15,7 @@ export function extractRef(obj: any) {
     // iterables: obj.iterables
   };
 
-  ['map', 'prefix', 'in', 'iterables', 'adjust'].forEach(k => {
+  ['map', 'prefix', 'in', 'iterables', 'adjust',].forEach(k => {
     if (obj[k])
       (ref as any)[k] = k === 'adjust' && isFunction(obj[k]) ? obj[k].toString() : obj[k];
   });

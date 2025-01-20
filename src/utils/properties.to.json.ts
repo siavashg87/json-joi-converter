@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { fromJson } from '../index';
+import { fromJson, } from '../index';
 
 export function propertiesToJson(properties: any) {
   let joi: Record<string, Joi.Schema> = {};

@@ -1,7 +1,6 @@
-import { ArraySchema, ObjectSchema, Schema, StringSchema, TypeWhen } from './interfaces';
-import { cloneDeep, extractRef, isObject, regexToString } from './utils';
+import { ArraySchema, BooleanSchema, ObjectSchema, Schema, StringSchema, TypeWhen, } from './interfaces';
+import { cloneDeep, extractRef, isObject, regexToString, } from './utils';
 import * as Joi from 'joi';
-import {BooleanSchema} from "../dts";
 
 export function toJson(joi: any): Schema {
   if (!isObject(joi)) {
@@ -9,7 +8,7 @@ export function toJson(joi: any): Schema {
   }
 
   const json: any = {
-    type: joi.type as Schema['type']
+    type: joi.type as Schema['type'],
   };
 
   Object.keys(joi).forEach((key: string) => {
@@ -36,16 +35,16 @@ export function toJson(joi: any): Schema {
       if (value) {
         json[schemaKey] = [];
         if (value._values)
-          json[schemaKey] = [...json[schemaKey], ...Array.from(value._values)].map(v => extractRef(v));
+          json[schemaKey] = [...json[schemaKey], ...Array.from(value._values),].map(v => extractRef(v));
 
         if (value._refs)
-          json[schemaKey] = [...json[schemaKey], ...Array.from(value._refs)].map(v => extractRef(v));
+          json[schemaKey] = [...json[schemaKey], ...Array.from(value._refs),].map(v => extractRef(v));
       }
 
       break;
     case '_flags':
       if (joi[key]) {
-        ['default', 'single', 'sparse', 'label', 'match'].forEach((_fk: string) => {
+        ['default', 'single', 'sparse', 'label', 'match',].forEach((_fk: string) => {
           if (_fk in joi[key])
             json[_fk] = joi[key][_fk];
         });
@@ -61,12 +60,12 @@ export function toJson(joi: any): Schema {
           return;
 
         let method: string = rule.method;
-        const optionsOnly: Array<string> = ['guid', 'uuid', 'email', 'hex', 'hostname', 'ip', 'base64', 'dataUri', 'domain', 'uri'];
+        const optionsOnly: Array<string> = ['guid', 'uuid', 'email', 'hex', 'hostname', 'ip', 'base64', 'dataUri', 'domain', 'uri',];
         let value = cloneDeep(optionsOnly.includes(method)
           ? ((Object.keys(rule.args?.options || {}).length) ? rule.args.options : true)
           : (Object.keys(rule.args || {}).length) ? rule.args : true);
 
-        if (['length', 'compare'].includes(method))
+        if (['length', 'compare',].includes(method))
           switch (rule.operator) {
           case '>=':
             method = 'min';
@@ -135,10 +134,12 @@ export function toJson(joi: any): Schema {
       }
 
       if (joi[key].truthy?._values?.size) {
+        // @ts-ignore
         (json as BooleanSchema).truthy = Array.from(joi[key].truthy._values).map(v => toJson(v));
       }
 
       if (joi[key].falsy?._values?.size) {
+        // @ts-ignore
         (json as BooleanSchema).falsy = Array.from(joi[key].falsy._values).map(v => toJson(v));
       }
 
@@ -147,14 +148,14 @@ export function toJson(joi: any): Schema {
         (json as StringSchema).replace = joi[key].replacements.map(r => {
           return {
             find: (r.pattern instanceof RegExp) ? regexToString(r.pattern) : r.pattern,
-            replace: r.replacement
+            replace: r.replacement,
           };
         });
       }
 
       if (Array.isArray(joi[key]?.metas) && joi[key].metas.length) {
         json.meta = {};
-        joi[key].metas.forEach((meta: Record<string, any>) => json.meta = { ...json.meta, ...meta });
+        joi[key].metas.forEach((meta: Record<string, any>) => json.meta = { ...json.meta, ...meta, });
       }
 
       if (Array.isArray(joi[key]?.whens) && !!joi[key].whens.length) {

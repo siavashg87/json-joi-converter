@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cloneDeep = void 0;
+exports.cloneDeep = cloneDeep;
 function cloneDeep(json) {
     return JSON.parse(JSON.stringify(json));
 }
-exports.cloneDeep = cloneDeep;

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { fromJson, toJson } from '../src';
+import JsonJoi, { fromJson, toJson, } from '../src';
 
 describe('Joi to Json - trim', () => {
 
@@ -8,7 +8,7 @@ describe('Joi to Json - trim', () => {
       toJson(JsonJoi.string().trim()),
       {
         type: 'string',
-        trim: true
+        trim: true,
       }
     );
     done();
@@ -18,11 +18,11 @@ describe('Joi to Json - trim', () => {
     assert.deepEqual(
       toJson(fromJson({
         type: 'string',
-        trim: true
+        trim: true,
       })),
       {
         type: 'string',
-        trim: true
+        trim: true,
       }
     );
     done();

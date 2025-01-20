@@ -2,24 +2,21 @@
   "compilerOptions": {
     "target": "ES5",
     "strict": true,
-    "module": "commonjs",
+    "module": "NodeNext",
     "outDir": "./dist/",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "declarationDir": "./dts/",
     "declaration": true,
-    "watch": false,
     "lib": [
       "dom",
       "es2017"
     ],
-    "typeRoots": [
-      "../node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "types": [
       "node",
       "mocha"

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { fromJson, toJson } from '../src';
+import JsonJoi, { fromJson, toJson, } from '../src';
 
 describe('Joi to Json - binary', () => {
 
@@ -7,7 +7,7 @@ describe('Joi to Json - binary', () => {
     assert.deepEqual(
       toJson(JsonJoi.binary()),
       {
-        type: 'binary'
+        type: 'binary',
       }
     );
     done();
@@ -17,7 +17,7 @@ describe('Joi to Json - binary', () => {
     assert.deepEqual(
       toJson(fromJson(toJson(JsonJoi.binary()))),
       {
-        type: 'binary'
+        type: 'binary',
       }
     );
     done();
@@ -26,15 +26,15 @@ describe('Joi to Json - binary', () => {
   it('toJson - object', (done) => {
     assert.deepEqual(
       toJson(JsonJoi.object({
-        file: JsonJoi.binary()
+        file: JsonJoi.binary(),
       })),
       {
         type: 'object',
         properties: {
           file: {
-            type: 'binary'
-          }
-        }
+            type: 'binary',
+          },
+        },
       }
     );
     done();

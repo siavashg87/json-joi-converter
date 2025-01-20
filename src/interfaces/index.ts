@@ -19,7 +19,7 @@ import {
   WhenOptions,
   WhenSchemaOptions,
   Context,
-  ReferenceOptions
+  ReferenceOptions,
 } from 'joi';
 
 export interface Reference extends Omit<ReferenceOptions, 'adjust'> {

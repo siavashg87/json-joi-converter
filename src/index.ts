@@ -11,11 +11,13 @@ import {
   DateSchema,
   NumberSchema,
   LinkSchema,
-  SymbolSchema
+  SymbolSchema,
+  TypeWhen,
+  JsonRegex,
 } from './interfaces';
 
-import { fromJson } from './from.json';
-import { toJson } from './to.json';
+import { fromJson, } from './from.json';
+import { toJson, } from './to.json';
 
 export {
   Schema,
@@ -30,8 +32,10 @@ export {
   NumberSchema,
   LinkSchema,
   SymbolSchema,
+  TypeWhen,
+  JsonRegex,
   joi,
   fromJson,
-  toJson
+  toJson,
 };
 export default joi;

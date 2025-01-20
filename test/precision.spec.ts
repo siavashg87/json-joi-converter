@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { fromJson, toJson } from '../src';
+import JsonJoi, { fromJson, toJson, } from '../src';
 
 describe('Joi to Json - Precision - Strict/Convert', () => {
 
@@ -12,7 +12,7 @@ describe('Joi to Json - Precision - Strict/Convert', () => {
     const result = schema.validate(5.123456);
 
     assert.equal(result.value, 5.12346);
-    const schemaStrict = fromJson({ ...json_schema, strict: true });
+    const schemaStrict = fromJson({ ...json_schema, strict: true, });
     const resultStrict = schemaStrict.validate(5.123456);
 
     assert.equal(!!resultStrict.error, true);

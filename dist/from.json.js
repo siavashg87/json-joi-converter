@@ -1,14 +1,49 @@
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fromJson = void 0;
-var Joi = require("joi");
+exports.fromJson = fromJson;
+var Joi = __importStar(require("joi"));
 var utils_1 = require("./utils");
 var OptionKey = {
     example: 'example',
@@ -20,12 +55,12 @@ var OptionKey = {
     regex: 'pattern',
 };
 function fromJson(_json) {
-    var json = utils_1.cloneDeep(_json);
-    if (utils_1.isObject(json) && 'then' in json)
-        return utils_1.translateWhen(json);
-    if (!utils_1.isObject(json) || !('type' in json))
+    var json = (0, utils_1.cloneDeep)(_json);
+    if ((0, utils_1.isObject)(json) && 'then' in json)
+        return (0, utils_1.translateWhen)(json);
+    if (!(0, utils_1.isObject)(json) || !('type' in json))
         return json;
-    var validation = json.type === 'object' ? Joi.object(utils_1.propertiesToJson(json.properties)) : Joi[json.type || 'any']();
+    var validation = json.type === 'object' ? Joi.object((0, utils_1.propertiesToJson)(json.properties)) : Joi[json.type || 'any']();
     var _loop_1 = function (k) {
         var _a, _b;
         switch (k) {
@@ -70,8 +105,8 @@ function fromJson(_json) {
             case 'uuid':
             case 'schema':
             case 'sort':
-                if (k === 'uri' && utils_1.isObject(json[k]) && 'scheme' in json[k])
-                    json[k].scheme = Array.isArray(json[k].scheme) ? json[k].scheme.map(function (o) { return utils_1.jsonToRegex(o); }) : utils_1.jsonToRegex(json[k].schema);
+                if (k === 'uri' && (0, utils_1.isObject)(json[k]) && 'scheme' in json[k])
+                    json[k].scheme = Array.isArray(json[k].scheme) ? json[k].scheme.map(function (o) { return (0, utils_1.jsonToRegex)(o); }) : (0, utils_1.jsonToRegex)(json[k].schema);
                 validation = json[k] === true ? validation[k]() : validation[k](json[k]);
                 break;
             // single argument
@@ -129,17 +164,17 @@ function fromJson(_json) {
             case 'map':
                 {
                     var arg = json[k];
-                    if (['default', 'multiple', 'less', 'max', 'min', 'greater', 'length'].includes(k)) {
-                        if (utils_1.isObject(arg) && !('$ref' in arg)) {
+                    if (['default', 'multiple', 'less', 'max', 'min', 'greater', 'length',].includes(k)) {
+                        if ((0, utils_1.isObject)(arg) && !('$ref' in arg)) {
                             if ('limit' in arg)
-                                arg.limit = utils_1.jsonToRef(arg.limit);
+                                arg.limit = (0, utils_1.jsonToRef)(arg.limit);
                             else if ('date' in arg)
-                                arg.date = utils_1.jsonToRef(arg.date);
+                                arg.date = (0, utils_1.jsonToRef)(arg.date);
                             else if ('base' in arg)
-                                arg.base = utils_1.jsonToRef(arg.base);
+                                arg.base = (0, utils_1.jsonToRef)(arg.base);
                         }
                         else
-                            arg = utils_1.jsonToRef(arg);
+                            arg = (0, utils_1.jsonToRef)(arg);
                     }
                     validation = validation[k](arg);
                 }
@@ -152,7 +187,7 @@ function fromJson(_json) {
             case 'external':
             case 'fork': {
                 var arg1 = void 0, arg2 = void 0, key = OptionKey[k] || k;
-                if (utils_1.isObject(json[k]) && key in json[k]) {
+                if ((0, utils_1.isObject)(json[k]) && key in json[k]) {
                     arg1 = json[k][key];
                     delete json[k][key];
                     arg2 = json[k][key];
@@ -171,12 +206,12 @@ function fromJson(_json) {
             case 'not':
             case 'valid':
             case 'invalid':
-                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (v) { return utils_1.jsonToRef(v); }));
+                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k],]).map(function (v) { return (0, utils_1.jsonToRef)(v); }));
                 break;
             case 'items':
             case 'ordered':
             case 'try':
-                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k]]).map(function (j) { return fromJson(j); }));
+                validation = validation[k].apply(validation, (Array.isArray(json[k]) ? json[k] : [json[k],]).map(function (j) { return fromJson(j); }));
                 break;
             // peers
             case 'and':
@@ -185,9 +220,9 @@ function fromJson(_json) {
             case 'oxor':
             case 'xor':
                 var args = void 0;
-                if (utils_1.isObject(json[k])) {
+                if ((0, utils_1.isObject)(json[k])) {
                     if ('options' in json[k])
-                        args = __spreadArrays(json[k].peers, [json[k].options]);
+                        args = __spreadArray(__spreadArray([], json[k].peers, true), [json[k].options,], false);
                     else
                         args = json[k].peers;
                 }
@@ -202,7 +237,7 @@ function fromJson(_json) {
                     validation = validation.regex();
                 else {
                     var arg1 = void 0, arg2 = void 0, arg3 = void 0, key = OptionKey[k] || k;
-                    if (utils_1.isObject(json[k]) && key in json[k]) {
+                    if ((0, utils_1.isObject)(json[k]) && key in json[k]) {
                         arg1 = json[k][key];
                         arg2 = json[k].options;
                         // object pattern
@@ -210,7 +245,7 @@ function fromJson(_json) {
                     }
                     else
                         arg1 = json[k];
-                    arg1 = utils_1.jsonToRegex(arg1);
+                    arg1 = (0, utils_1.jsonToRegex)(arg1);
                     validation = arg3 !== undefined ? validation[k](arg1, arg3, arg2) : (arg2 !== undefined ? validation[k](arg1, arg2) : validation[k](arg1));
                 }
                 break;
@@ -220,7 +255,7 @@ function fromJson(_json) {
                     validation = validation[k]();
                 else {
                     var comparator = void 0, options = {};
-                    if (utils_1.isObject(json[k])) {
+                    if ((0, utils_1.isObject)(json[k])) {
                         if ('comparator' in json[k])
                             comparator = json[k].comparator;
                         if ('options' in json[k])
@@ -228,7 +263,7 @@ function fromJson(_json) {
                     }
                     else
                         comparator = json[k];
-                    if (utils_1.isStringFunction(comparator))
+                    if ((0, utils_1.isStringFunction)(comparator))
                         comparator = eval(comparator);
                     validation = validation[k](comparator, options);
                 }
@@ -241,27 +276,27 @@ function fromJson(_json) {
                 validation = validation[k](from, to, json[k]);
                 break;
             case 'replace':
-                (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach(function (r) {
-                    validation = validation[k](utils_1.jsonToRegex(r.find), r.replace);
+                (Array.isArray(json[k]) ? json[k] : [json[k],]).forEach(function (r) {
+                    validation = validation[k]((0, utils_1.jsonToRegex)(r.find), r.replace);
                 });
                 break;
             case 'assert':
                 var reference = void 0, schema = void 0, message = void 0;
-                if (utils_1.isObject(json[k])) {
+                if ((0, utils_1.isObject)(json[k])) {
                     reference = json[k].reference;
                     schema = json[k].schema;
                     message = json[k].message;
                 }
                 else if (Array.isArray(json[k]))
                     _a = json[k], reference = _a[0], schema = _a[1], message = _a[2];
-                reference = utils_1.jsonToRef(reference);
+                reference = (0, utils_1.jsonToRef)(reference);
                 validation = message !== undefined ? validation[k](reference, schema, message) : validation[k](reference, schema);
                 break;
             case 'with':
             case 'without':
                 {
                     var key = void 0, peers = void 0, options = void 0;
-                    if (utils_1.isObject(json[k])) {
+                    if ((0, utils_1.isObject)(json[k])) {
                         key = json[k].key;
                         peers = json[k].peers;
                         options = json[k].options;
@@ -273,12 +308,12 @@ function fromJson(_json) {
                 break;
             case 'when':
             case 'conditional':
-                (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach(function (when) {
-                    validation = utils_1.translateWhen(when, validation);
+                (Array.isArray(json[k]) ? json[k] : [json[k],]).forEach(function (when) {
+                    validation = (0, utils_1.translateWhen)(when, validation);
                 });
                 break;
             default:
-                throw new Error("Validation \"" + k + "\" not found!");
+                throw new Error("Validation \"".concat(k, "\" not found!"));
         }
     };
     for (var k in json) {
@@ -286,4 +321,3 @@ function fromJson(_json) {
     }
     return validation;
 }
-exports.fromJson = fromJson;

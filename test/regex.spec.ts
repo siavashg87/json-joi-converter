@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import JsonJoi, { fromJson, toJson } from '../src';
+import JsonJoi, { fromJson, toJson, } from '../src';
 
 describe('Joi to Json', () => {
 
@@ -10,10 +10,10 @@ describe('Joi to Json', () => {
         pattern: {
           options: {},
           regex: {
-            '$regex': '(?=.*[A-Z])(?=.*[\\.!@#$&*])(?=.*[0-9])(?=.*[a-z]).'
-          }
+            '$regex': '(?=.*[A-Z])(?=.*[\\.!@#$&*])(?=.*[0-9])(?=.*[a-z]).',
+          },
         },
-        type: 'string'
+        type: 'string',
       }
     );
     done();
@@ -27,10 +27,10 @@ describe('Joi to Json', () => {
           options: {},
           regex: {
             '$regex': '^[\\d]{4}-[\\d]{2}-[\\d]{2}$',
-            flags: 'im'
-          }
+            flags: 'im',
+          },
         },
-        type: 'string'
+        type: 'string',
       }
     );
     done();

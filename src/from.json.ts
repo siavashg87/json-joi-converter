@@ -1,6 +1,6 @@
-import { ObjectSchema, Schema, TypeReplace } from './interfaces';
+import { ObjectSchema, Schema, TypeReplace, } from './interfaces';
 import * as Joi from 'joi';
-import { cloneDeep, isObject, isStringFunction, jsonToRef, jsonToRegex, propertiesToJson, translateWhen } from './utils';
+import { cloneDeep, isObject, isStringFunction, jsonToRef, jsonToRegex, propertiesToJson, translateWhen, } from './utils';
 
 let OptionKey: any = {
   example: 'example',
@@ -129,7 +129,7 @@ export function fromJson(_json: Schema): Joi.Schema {
     case 'map': {
       let arg = json[k];
 
-      if (['default', 'multiple', 'less', 'max', 'min', 'greater', 'length'].includes(k)) {
+      if (['default', 'multiple', 'less', 'max', 'min', 'greater', 'length',].includes(k)) {
         if (isObject(arg) && !('$ref' in arg)) {
           if ('limit' in arg)
             arg.limit = jsonToRef(arg.limit);
@@ -178,13 +178,13 @@ export function fromJson(_json: Schema): Joi.Schema {
     case 'not':
     case 'valid':
     case 'invalid':
-      validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((v: any) => jsonToRef(v)));
+      validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k],]).map((v: any) => jsonToRef(v)));
       break;
 
     case 'items':
     case 'ordered':
     case 'try':
-      validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k]]).map((j: Schema) => fromJson(j)));
+      validation = validation[k](...(Array.isArray(json[k]) ? json[k] : [json[k],]).map((j: Schema) => fromJson(j)));
       break;
 
       // peers
@@ -197,7 +197,7 @@ export function fromJson(_json: Schema): Joi.Schema {
 
       if (isObject(json[k])) {
         if ('options' in json[k])
-          args = [...json[k].peers, json[k].options];
+          args = [...json[k].peers, json[k].options,];
         else
           args = json[k].peers;
       }
@@ -268,7 +268,7 @@ export function fromJson(_json: Schema): Joi.Schema {
       break;
 
     case 'replace':
-      (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach((r: TypeReplace) => {
+      (Array.isArray(json[k]) ? json[k] : [json[k],]).forEach((r: TypeReplace) => {
         validation = validation[k](jsonToRegex(r.find), r.replace);
       });
       break;
@@ -282,7 +282,7 @@ export function fromJson(_json: Schema): Joi.Schema {
         message = json[k].message;
       }
       else if (Array.isArray(json[k]))
-        [reference, schema, message] = json[k];
+        [reference, schema, message,] = json[k];
 
       reference = jsonToRef(reference);
 
@@ -300,7 +300,7 @@ export function fromJson(_json: Schema): Joi.Schema {
         options = json[k].options;
       }
       else if (Array.isArray(json[k]))
-        [key, peers, options] = json[k];
+        [key, peers, options,] = json[k];
 
       validation = message !== undefined ? validation[k](key, peers, options) : validation[k](key, peers);
 
@@ -309,7 +309,7 @@ export function fromJson(_json: Schema): Joi.Schema {
 
     case 'when':
     case 'conditional':
-      (Array.isArray(json[k]) ? json[k] : [json[k]]).forEach((when: any) => {
+      (Array.isArray(json[k]) ? json[k] : [json[k],]).forEach((when: any) => {
         validation = translateWhen(when, validation);
       });
       break;
